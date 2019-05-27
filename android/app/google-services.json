@@ -1,0 +1,108 @@
+{
+  "project_info": {
+    "project_number": "953148957327",
+    "firebase_url": "https://creek-55ef6.firebaseio.com",
+    "project_id": "creek-55ef6",
+    "storage_bucket": "creek-55ef6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953148957327:android:1f100968a1112c53",
+        "android_client_info": {
+          "package_name": "com.sortedqueue.practicecode"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "953148957327-da8t1ejelk5jlek6fgq122ga9f9gq9sm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-HbvXiXXOLyd5YU4L-gfiMPrmkpeg0LA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "953148957327-da8t1ejelk5jlek6fgq122ga9f9gq9sm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "953148957327-evbk1cqhd6vuurg3uqi7h2cgoettv04n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sortedqueue.practicecode"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953148957327:android:d2b71007b4babd76",
+        "android_client_info": {
+          "package_name": "com.sortedqueue.programmercreek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "953148957327-7m826ck6dd21aotcn82nvv0p25ab6f69.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sortedqueue.programmercreek",
+            "certificate_hash": "e454ac572441ddedc242042a11961e01b6bff0b1"
+          }
+        },
+        {
+          "client_id": "953148957327-j5g27ls6b736ig0tp2vht17ufj9lj02i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sortedqueue.programmercreek",
+            "certificate_hash": "6f8ea9ba816427c2553595bf99588c611c6a0269"
+          }
+        },
+        {
+          "client_id": "953148957327-as1m8623hdus3cjnane35oqjngfh0tr3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sortedqueue.programmercreek",
+            "certificate_hash": "5ade8519940caee90d772cf53bf312229ef6a035"
+          }
+        },
+        {
+          "client_id": "953148957327-da8t1ejelk5jlek6fgq122ga9f9gq9sm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-HbvXiXXOLyd5YU4L-gfiMPrmkpeg0LA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "953148957327-da8t1ejelk5jlek6fgq122ga9f9gq9sm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "953148957327-evbk1cqhd6vuurg3uqi7h2cgoettv04n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sortedqueue.practicecode"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-2597451345754102~2851301278"
+    }
+  ],
+  "configuration_version": "1"
+}
