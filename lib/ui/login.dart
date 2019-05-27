@@ -1,16 +1,21 @@
 import 'package:dual_mode/widgets/LoginButton.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => new LoginState();
+}
 
-  BoxDecoration _buildBackground() {
-    return BoxDecoration(
-      image: DecorationImage(
-        image: AssetImage("assets/splash_logo.png"),
-        fit: BoxFit.contain,
-      ),
-    );
-  }
+class LoginState extends State<LoginScreen> {
+
+  bool isLoading = false;
+
+  _buildBackground() => BoxDecoration(
+    image: DecorationImage(
+      image: AssetImage("assets/splash_logo.png"),
+      fit: BoxFit.none,
+    ),
+  );
 
   Container _buildBody() {
     return Container(
@@ -31,6 +36,17 @@ class LoginScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(body: _buildBody());
+  Widget build(BuildContext context) => Scaffold(body: Stack(
+    children: <Widget>[
+      _buildBody(),
+      _buildProgressBar()
+    ],
+  ));
+
+  _buildProgressBar() =>
+      isLoading ?
+      Center(child: CircularProgressIndicator())
+          :
+      Container(height: 0.0, width: 0.0,);
 
 }

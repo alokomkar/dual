@@ -1,4 +1,4 @@
-package com.sortedqueue.dual_mode
+package com.sortedqueue.practicecode
 
 import android.os.Bundle
 
