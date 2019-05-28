@@ -1,3 +1,4 @@
+import 'package:dual_mode/base/base_state.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -7,11 +8,8 @@ class HomeScreen extends StatefulWidget {
 
 }
 
-class HomeState extends State<HomeScreen> {
+class HomeState extends BaseState<HomeScreen> {
   @override
-  Widget build(BuildContext context)
-  =>  new Scaffold(
-    body : new Center( child : new Text("Coding here",
-      textAlign: TextAlign.center,),
-  ));
+  Widget build(BuildContext context) =>  new Scaffold(
+      body : new Center( child : new Text("Coding here", textAlign: TextAlign.center,),));
 }
