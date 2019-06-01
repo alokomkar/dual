@@ -2,7 +2,9 @@ import 'package:dual_mode/ui/home.dart';
 import 'package:dual_mode/ui/login.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(DualCodeApp());
+import 'app_state_widget.dart';
+
+void main() => runApp(new AppStateWidget(child : DualCodeApp()));
 
 class DualCodeApp extends StatelessWidget {
 
@@ -12,13 +14,13 @@ class DualCodeApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Dual Code',
       //theme: buildTheme(),
-      initialRoute: "/",
+      //initialRoute: "/",
       routes: {
         // If you're using navigation routes, Flutter needs a base route.
         // We're going to change this route once we're ready with
         // implementation of HomeScreen.
-        '/': (context) => LoginScreen(),
-        '/home': (context) => HomeScreen(),
+        '/': (context) => HomeScreen(),
+        '/login': (context) => LoginScreen(),
       },
     );
   }

@@ -1,3 +1,4 @@
+import 'package:dual_mode/app_state_widget.dart';
 import 'package:dual_mode/auth/auth.dart';
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/widgets/LoginButton.dart';
@@ -40,7 +41,10 @@ class LoginState extends BaseState<LoginScreen> {
     toggleProgressBar(true);
     handleSignIn()
         .then((FirebaseUser user) {
-          navigateToHome();
+          toggleProgressBar(false);
+          setState(() {
+            userState.user = user;
+          });
     }).catchError((e) {
       _showSnackBar(e.toString());
       toggleProgressBar(false);
@@ -48,19 +52,17 @@ class LoginState extends BaseState<LoginScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(body: Stack(
-    children: <Widget>[
-      _buildBody(),
-      buildProgressBar()
-    ],
-  ));
+  Widget build(BuildContext context) {
+    userState = AppStateWidget.of(context).userState;
+    return Scaffold(body: Stack(
+      children: <Widget>[
+        _buildBody(),
+        buildProgressBar()
+      ],
+    ));
+  }
 
   _showSnackBar( String message ) => SnackBar( content: Text(message));
-
-  void navigateToHome() {
-    toggleProgressBar(false);
-    Navigator.pushNamed(context, "/home");
-  }
 
 }
 

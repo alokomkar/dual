@@ -1,8 +1,10 @@
+import 'package:dual_mode/model/UserState.dart';
 import 'package:flutter/material.dart';
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
 
   bool isLoading = false;
+  UserState userState;
 
   toggleProgressBar( bool isVisible ) {
     setState(() {
