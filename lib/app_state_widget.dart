@@ -51,8 +51,34 @@ class _AppStateWidgetState extends State<AppStateWidget> {
     });
   }
 
-  Future<Null> appHandleSignIn(bool isLoading) async {
+  Future<Null> appHandleGoogleSignIn(bool isLoading) async {
     handleSignIn()
+        .then((FirebaseUser user) {
+      isLoading = false;
+      setState(() {
+        userState.user = user;
+      });
+    }).catchError((e) {
+      debugPrint("Error sigining in " + e.toString());
+      isLoading = false;
+    });
+  }
+
+  Future<Null> appHandleEmailSignIn(bool isLoading, String email, String password) async {
+    handleEmailSignIn(email, password)
+        .then((FirebaseUser user) {
+      isLoading = false;
+      setState(() {
+        userState.user = user;
+      });
+    }).catchError((e) {
+      debugPrint("Error sigining in " + e.toString());
+      isLoading = false;
+    });
+  }
+
+  Future<Null> appHandleEmailSignUp(bool isLoading, String email, String password) async {
+    handleEmailSignUp(email, password)
         .then((FirebaseUser user) {
       isLoading = false;
       setState(() {

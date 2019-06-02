@@ -8,6 +8,7 @@ final GoogleSignIn _googleSignIn = GoogleSignIn(
     'https://www.googleapis.com/auth/contacts.readonly',
   ]
 );
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 Future<FirebaseUser> handleSignIn() async {
@@ -20,5 +21,16 @@ Future<FirebaseUser> handleSignIn() async {
   );
 
   final FirebaseUser user = await _auth.signInWithCredential(credential);
+  return user;
+}
+
+Future<FirebaseUser> handleEmailSignUp(String email, String password) async {
+  final FirebaseUser user = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+  return user;
+}
+
+
+Future<FirebaseUser> handleEmailSignIn(String email, String password) async {
+  final FirebaseUser user = await _auth.signInWithEmailAndPassword(email: email, password: password);
   return user;
 }

@@ -1,8 +1,6 @@
 import 'package:dual_mode/app_state_widget.dart';
-
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/widgets/LoginButton.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -12,6 +10,7 @@ class LoginScreen extends StatefulWidget {
 
 class LoginState extends BaseState<LoginScreen> {
 
+  //_function indicates private function.
   _buildBackground() => BoxDecoration(
     image: DecorationImage(
       image: AssetImage("assets/splash_logo.png"),
@@ -28,18 +27,18 @@ class LoginState extends BaseState<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            LoginButton( buttonColor: Colors.redAccent, buttonText : "Sign In with Google", onClick: () => initGoogleSignIn()),
-            LoginButton( buttonColor: Colors.blue, buttonText : "Sign In with Email", onClick: () => debugPrint("Email")),
-            LoginButton( buttonColor: Colors.blueGrey, buttonText : "Take a tour", onClick: () => debugPrint("Tour")),
+            LoginButton( buttonColor: Colors.redAccent, buttonText : "Sign In with Google", onClick: () => _initGoogleSignIn()),
+            LoginButton( buttonColor: Colors.blue, buttonText : "Sign In with Email", onClick: () => _initEmailSignIn()),
+            LoginButton( buttonColor: Colors.blueGrey, buttonText : "Take a tour", onClick: () => _initAnonSignIn()),
           ],
         ),
       ),
     );
   }
 
-  initGoogleSignIn() {
+  _initGoogleSignIn() {
     toggleProgressBar(true);
-    AppStateWidget.of(context).appHandleSignIn(isLoading);
+    AppStateWidget.of(context).appHandleGoogleSignIn(isLoading);
   }
 
   @override
@@ -54,6 +53,18 @@ class LoginState extends BaseState<LoginScreen> {
   }
 
   _showSnackBar( String message ) => debugPrint(message);
+
+  _initEmailSignIn() {
+    _showSnackBar("Email");
+    toggleProgressBar(true);
+    AppStateWidget.of(context).appHandleEmailSignIn(isLoading, "", "");
+  }
+
+  _initAnonSignIn() {
+    _showSnackBar("Tour");
+    toggleProgressBar(true);
+    AppStateWidget.of(context).appHandleEmailSignUp(isLoading, "", "");
+  }
 
 }
 

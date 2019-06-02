@@ -18,8 +18,6 @@ class LoginButton extends StatelessWidget {
     ),
   );
 
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
