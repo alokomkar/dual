@@ -1,5 +1,5 @@
 import 'package:dual_mode/app_state_widget.dart';
-import 'package:dual_mode/auth/auth.dart';
+
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/widgets/LoginButton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,16 +39,7 @@ class LoginState extends BaseState<LoginScreen> {
 
   initGoogleSignIn() {
     toggleProgressBar(true);
-    handleSignIn()
-        .then((FirebaseUser user) {
-          toggleProgressBar(false);
-          setState(() {
-            userState.user = user;
-          });
-    }).catchError((e) {
-      _showSnackBar(e.toString());
-      toggleProgressBar(false);
-    });
+    AppStateWidget.of(context).appHandleSignIn(isLoading);
   }
 
   @override
@@ -62,7 +53,7 @@ class LoginState extends BaseState<LoginScreen> {
     ));
   }
 
-  _showSnackBar( String message ) => SnackBar( content: Text(message));
+  _showSnackBar( String message ) => debugPrint(message);
 
 }
 

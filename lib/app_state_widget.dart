@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:dual_mode/auth/auth.dart';
 import 'model/UserState.dart';
 
 class AppStateWidget extends StatefulWidget {
@@ -48,6 +48,19 @@ class _AppStateWidgetState extends State<AppStateWidget> {
     setState(() {
       userState.user = user;
       debugPrint("App State Widget : User status : " + userState.user.toString());
+    });
+  }
+
+  Future<Null> appHandleSignIn(bool isLoading) async {
+    handleSignIn()
+        .then((FirebaseUser user) {
+      isLoading = false;
+      setState(() {
+        userState.user = user;
+      });
+    }).catchError((e) {
+      debugPrint("Error sigining in " + e.toString());
+      isLoading = false;
     });
   }
 
