@@ -90,6 +90,19 @@ class _AppStateWidgetState extends State<AppStateWidget> {
     });
   }
 
+  void appHandleAnonUser(bool isLoading) {
+    handleAnonUser()
+        .then((FirebaseUser user) {
+      isLoading = false;
+      setState(() {
+        userState.user = user;
+      });
+    }).catchError((e) {
+      debugPrint("Error sigining in " + e.toString());
+      isLoading = false;
+    });
+  }
+
 }
 
 class _AppStateDataWidget extends InheritedWidget {

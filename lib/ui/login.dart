@@ -52,18 +52,18 @@ class LoginState extends BaseState<LoginScreen> {
     ));
   }
 
-  _showSnackBar( String message ) => debugPrint(message);
+  _printLog( String message ) => debugPrint(message);
 
   _initEmailSignIn() {
-    _showSnackBar("Email");
+    _printLog("Email");
     toggleProgressBar(true);
     AppStateWidget.of(context).appHandleEmailSignIn(isLoading, "", "");
   }
 
   _initAnonSignIn() {
-    _showSnackBar("Tour");
+    _printLog("Tour");
     toggleProgressBar(true);
-    AppStateWidget.of(context).appHandleEmailSignUp(isLoading, "", "");
+    AppStateWidget.of(context).appHandleAnonUser(isLoading);
   }
 
 }

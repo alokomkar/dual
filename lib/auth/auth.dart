@@ -34,3 +34,8 @@ Future<FirebaseUser> handleEmailSignIn(String email, String password) async {
   final FirebaseUser user = await _auth.signInWithEmailAndPassword(email: email, password: password);
   return user;
 }
+
+Future<FirebaseUser> handleAnonUser() async {
+  final FirebaseUser user = await _auth.signInAnonymously();
+  return user;
+}
