@@ -109,8 +109,11 @@ class LoginState extends BaseState<LoginScreen> {
   String validatePassword(String value) {
     if (value.trim().isEmpty)
       return 'Password cannot be empty';
-    else
+    else {
+      _password = value;
       return null;
+    }
+
   }
 
   String validateEmail(String value) {
@@ -119,14 +122,14 @@ class LoginState extends BaseState<LoginScreen> {
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
       return 'Incorrect email';
-    else
+    else {
+      _email = value;
       return null;
+    }
+
   }
 
   _buildContainer() {
-
-    TextEditingController _textFieldEmailController = TextEditingController();
-    TextEditingController _textFieldPasswordController = TextEditingController();
 
     return new Container(
     width: 350,
@@ -136,23 +139,19 @@ class LoginState extends BaseState<LoginScreen> {
       crossAxisAlignment : CrossAxisAlignment.center,
       children: <Widget>[
         TextFormField(
-          controller: _textFieldEmailController,
           keyboardType: TextInputType.emailAddress,
           validator: validateEmail,
           onSaved: (String val) {
             _email = val;
-            //resetState();
           },
           decoration: InputDecoration(hintText: "Email"),
         ),
         TextFormField(
-          controller: _textFieldPasswordController,
           keyboardType: TextInputType.text,
           obscureText: true,
           validator: validatePassword,
           onSaved: (String val) {
             _password = val;
-            //resetState();
           },
           decoration: InputDecoration(hintText: "Password"),
         ),
@@ -160,7 +159,7 @@ class LoginState extends BaseState<LoginScreen> {
         new LoginButton(
             buttonColor: Colors.green,
             buttonText : "Done",
-            onClick: () =>  _validateEmailPassword()
+            onClick: () =>  _validateEmailPassword() //_showSnackBar("TODO Email Password Validation")//_validateEmailPassword()
         ),
         SizedBox(height: 8),
         new LoginButton(
@@ -171,8 +170,14 @@ class LoginState extends BaseState<LoginScreen> {
     ),);
   }
 
+  _showSnackBar( String message ) => Scaffold
+      .of(context)
+      .showSnackBar(SnackBar(content: Text(message)));
+
   _validateEmailPassword() {
     if( _key.currentState.validate() ) {
+      Navigator.of(context).pop();
+      toggleProgressBar(true);
       AppStateWidget.of(context).appHandleEmailSignIn(isLoading, _email, _password);
     }
     else {

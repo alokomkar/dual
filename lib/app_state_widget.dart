@@ -74,6 +74,7 @@ class _AppStateWidgetState extends State<AppStateWidget> {
     }).catchError((e) {
       debugPrint("Error sigining in " + e.toString());
       isLoading = false;
+      appHandleEmailSignUp(true, email, password);
     });
   }
 
