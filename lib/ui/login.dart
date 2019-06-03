@@ -69,6 +69,7 @@ class LoginState extends BaseState<LoginScreen> {
   // user defined function
   void _showDialog() {
 
+    resetState();
     // flutter defined function
     showDialog(
       context: context,
@@ -140,6 +141,7 @@ class LoginState extends BaseState<LoginScreen> {
           validator: validateEmail,
           onSaved: (String val) {
             _email = val;
+            //resetState();
           },
           decoration: InputDecoration(hintText: "Email"),
         ),
@@ -150,6 +152,7 @@ class LoginState extends BaseState<LoginScreen> {
           validator: validatePassword,
           onSaved: (String val) {
             _password = val;
+            //resetState();
           },
           decoration: InputDecoration(hintText: "Password"),
         ),
@@ -176,8 +179,13 @@ class LoginState extends BaseState<LoginScreen> {
       setState((){
         _validate = true;
       });
-      _validate = false;
     }
+  }
+
+  void resetState() {
+    setState(() {
+      _validate = false;
+    });
   }
 
 }
