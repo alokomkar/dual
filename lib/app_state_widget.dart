@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dual_mode/auth/auth.dart';
-import 'model/UserState.dart';
+import 'model/user_state.dart';
 
 class AppStateWidget extends StatefulWidget {
   final UserState state;

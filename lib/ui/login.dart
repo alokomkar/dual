@@ -83,18 +83,6 @@ class LoginState extends BaseState<LoginScreen> {
             child: _buildContainer(),
           autovalidate: _validate,
           ),
-          /*actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new LoginButton(
-                buttonColor: Colors.green,
-                buttonText : " Done ",
-                onClick: () =>  Navigator.of(context).pop()
-            ),
-            new LoginButton(
-                buttonColor: Colors.redAccent,
-                buttonText : "Cancel",
-                onClick: () =>  Navigator.of(context).pop()),
-          ],*/
         );
       },
     );
