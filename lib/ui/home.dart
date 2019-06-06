@@ -1,5 +1,6 @@
 import 'package:dual_mode/app_state_widget.dart';
 import 'package:dual_mode/base/base_state.dart';
+import 'package:dual_mode/ui/language/language_selection.dart';
 import 'package:dual_mode/ui/login.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +20,8 @@ class HomeState extends BaseState<HomeScreen> {
   Widget _buildContent() {
     debugPrint( "Is UserObject Null : " + userState.user.toString() );
     if( userState.user != null )
-      return new Scaffold(
-          body : new Center( child : new Text("Coding here", textAlign: TextAlign.center,),));
+      return new LanguageSelectionScreen();/*new Scaffold(
+          body : new Center( child : new Text("Coding here", textAlign: TextAlign.center,),));*/
     else
       return new LoginScreen();
   }

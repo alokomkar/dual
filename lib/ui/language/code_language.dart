@@ -22,8 +22,8 @@ class CodeLanguage {
         language = snapshot.value["language"],
         description = snapshot.value["description"],
         languageExtension = snapshot.value["languageExtension"],
-        created = snapshot.value["created"],
-        updated = snapshot.value["updated"];
+        created = BigInt.zero/*snapshot.value["created"]*/,
+        updated =  BigInt.zero/*snapshot.value["updated"]*/;
 
   toJson() {
     return {
@@ -35,5 +35,11 @@ class CodeLanguage {
       "updated": updated,
     };
   }
+
+  @override
+  String toString() {
+    return 'CodeLanguage{language: $language}';
+  }
+
 
 }
