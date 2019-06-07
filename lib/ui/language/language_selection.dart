@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dual_mode/app_state_widget.dart';
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/database/firebase_realtime_db_util.dart';
@@ -14,7 +16,6 @@ class LanguageSelectionScreen extends StatefulWidget {
 class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
 
   FirebaseDBCrudForCodeLanguage dbConnection = FirebaseDBCrudForCodeLanguage();
-  DatabaseReference dbReference;
   String languages = "";
 
   @override
@@ -25,25 +26,18 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
 
   Widget _buildContent() {
     toggleProgressBar(true);
-    dbReference = dbConnection.read();
-    dbReference.onChildChanged.listen(_childChanged);
-    dbReference.onChildAdded.listen(_childAdded);
+    dbConnection.read().then(_onValue);
     return new Scaffold(
         body : new Center( child : new Text(languages, textAlign: TextAlign.center,),));
   }
 
-
-  void _childChanged(Event event) {
-    toggleProgressBar(false);
+  FutureOr _onValue(DataSnapshot value) {
     setState(() {
-      languages = "Child Changed : " + CodeLanguage.fromDataSnapshot(event.snapshot).toString();
+      debugPrint("Child Added : " + CodeLanguage.fromDataSnapshot(value).toString());
     });
   }
 
-  void _childAdded(Event event) {
-    toggleProgressBar(false);
-    setState(() {
-      languages = "Child Added : " + CodeLanguage.fromDataSnapshot(event.snapshot).toString();
-    });
+  onError(Exception e) {
+    debugPrint("Error");
   }
 }

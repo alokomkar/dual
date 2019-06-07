@@ -19,7 +19,7 @@ class FirebaseDBCrudForCodeLanguage extends DBCrudInterface<CodeLanguage>  {
   }
 
   @override
-  DatabaseReference read() => databaseReference;
+  Future<DataSnapshot> read() => databaseReference.once();
 
   @override
   Future<void> update(CodeLanguage item) => databaseReference.child(item.id).set(item);
