@@ -19,11 +19,10 @@ class HomeState extends BaseState<HomeScreen> {
 
   Widget _buildContent() {
     if( userState.user != null ) {
-      if( userPreferences.getSelectedLanguage().isEmpty ) {
+      if( userPreferences.getSelectedLanguage().isEmpty )
         return new LanguageSelectionScreen();
-      }
-      else return new Scaffold(
-          body : new Center( child : new Text("Coding here", textAlign: TextAlign.center,),));
+      else return Scaffold(
+          body : Center( child : Text("Coding here", textAlign: TextAlign.center,),));
     }
     else
       return new LoginScreen();

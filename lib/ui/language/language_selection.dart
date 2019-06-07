@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 class LanguageSelectionScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => LanguageSelectionState();
-
 }
 
 class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
