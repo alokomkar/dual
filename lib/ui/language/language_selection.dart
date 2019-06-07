@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dual_mode/app_state_widget.dart';
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/database/firebase_realtime_db_util.dart';
@@ -10,7 +8,6 @@ import 'package:flutter/material.dart';
 class LanguageSelectionScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => LanguageSelectionState();
-
 }
 
 class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
@@ -46,18 +43,8 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
   }
 
 
-  void _childChanged(Event event) {
-    toggleProgressBar(false);
-    setState(() {
-      languages = "Child Changed : " + CodeLanguage.fromDataSnapshot(event.snapshot).toString();
-    });
-  }
-
-  void _childAdded(Event event) {
-    toggleProgressBar(false);
-    setState(() {
-      languages = "Child Added : " + CodeLanguage.fromDataSnapshot(event.snapshot).toString();
-    });
+  onError(Exception e) {
+    debugPrint("Error");
   }
 
 }

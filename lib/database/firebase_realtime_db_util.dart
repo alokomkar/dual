@@ -1,4 +1,3 @@
-
 import 'package:dual_mode/database/constants.dart';
 import 'package:dual_mode/database/database_crud_interface.dart';
 import 'package:dual_mode/ui/language/code_language.dart';
