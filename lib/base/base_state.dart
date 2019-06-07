@@ -1,4 +1,4 @@
-import 'package:dual_mode/base/prefs.dart';
+import 'package:dual_mode/base/base_preferences.dart';
 import 'package:dual_mode/model/user_state.dart';
 import 'package:flutter/material.dart';
 
