@@ -105,6 +105,7 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
     trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
     onTap : () {
       userPreferences.setSelectedLanguage(language.language);
+      Navigator.of(context).pushReplacementNamed("/");
     }
   );
 
