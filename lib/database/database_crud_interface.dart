@@ -13,5 +13,5 @@ abstract class DBCrudInterface<T> {
   Future<void> insert( T item );
   Future<void> delete( T item );
   Future<void> update( T item );
-  DatabaseReference read();
+  Query read();
 }
