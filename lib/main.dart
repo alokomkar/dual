@@ -1,4 +1,5 @@
 import 'package:dual_mode/ui/home.dart';
+import 'package:dual_mode/ui/language/language_selection.dart';
 import 'package:dual_mode/ui/login.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,7 @@ class DualCodeApp extends StatelessWidget {
         // implementation of HomeScreen.
         '/': (context) => HomeScreen(),
         '/login': (context) => LoginScreen(),
+        '/language': (context) => LanguageSelectionScreen(),
       },
     );
   }
