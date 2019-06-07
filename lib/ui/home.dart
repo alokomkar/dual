@@ -18,7 +18,6 @@ class HomeState extends BaseState<HomeScreen> {
   }
 
   Widget _buildContent() {
-    debugPrint( "Is UserObject Null : " + userState.user.toString() );
     if( userState.user != null ) {
       if( userPreferences.getSelectedLanguage().isEmpty ) {
         return new LanguageSelectionScreen();
