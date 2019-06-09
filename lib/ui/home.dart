@@ -26,7 +26,7 @@ class HomeState extends BaseState<HomeScreen> {
     elevation: 0.1,
     backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
     title: Text("Home",
-    style: _buildTextStyle(22),),
+      style: _buildTextStyle(22),),
   );
 
   Widget _buildContent() {
@@ -51,40 +51,51 @@ class HomeState extends BaseState<HomeScreen> {
       itemCount: chaptersMap.length,
       padding: EdgeInsets.all(8),
       itemBuilder: (context, position) {
-        String key = chaptersMap.keys.elementAt(position);
-        List<Chapter> chaptersList = chaptersMap[key];
+        String chapterTitle = chaptersMap.keys.elementAt(position);
+        List<Chapter> chaptersList = chaptersMap[chapterTitle];
         Color colorCode = position % 2 == 0 ? Colors.grey : Colors.blueGrey;
-        return _makeCard(colorCode, key, chaptersList);
+        return _makeCard(colorCode, chapterTitle, chaptersList);
       });
 
-  Card _makeCard(Color colorCode, String key, List<Chapter> chaptersList) => Card(
+  Card _makeCard(Color colorCode, String chapterTitle, List<Chapter> chaptersList) => Card(
     elevation: 8.0,
     margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
     child: Container(
       decoration: BoxDecoration(color: colorCode),
-      child: _makeExpansionTile(key, chaptersList),
+      child:
+      Padding(
+        padding: EdgeInsets.all(8),
+        child: _makeExpansionTile(chapterTitle, chaptersList),),
     ),
   );
 
-  ExpansionTile _makeExpansionTile(String key, List<Chapter> chaptersList) => ExpansionTile(
-      title: Text(
-        key,
-        style:  _buildTextStyle(24),
-      ),
-      children: <Widget>[
-        Column(
-          children: _buildExpandableContent(chaptersList),
-        )
-      ],
+  ExpansionTile _makeExpansionTile(String chapterTitle, List<Chapter> chaptersList) => ExpansionTile(
+    title: Text(
+      chapterTitle,
+      style:  _buildTextStyle(24),
+    ),
+    children: <Widget>[
+      Column(
+        children: _buildExpandableContent(chaptersList),
+      )
+    ],
 
   );
 
+  TextStyle _buildTextStyleBlack( double fontSize ) {
+    return TextStyle(
+      fontFamily: 'VarelaRound-Regular',
+      fontSize: fontSize,
+      color: Colors.black,
+    );
+  }
+
   TextStyle _buildTextStyle( double fontSize ) {
     return TextStyle(
-        fontFamily: 'VarelaRound-Regular',
-        fontSize: fontSize,
-        color: Colors.white,
-      );
+      fontFamily: 'VarelaRound-Regular',
+      fontSize: fontSize,
+      color: Colors.white,
+    );
   }
 
   _buildExpandableContent(List<Chapter> chaptersList) {
@@ -92,12 +103,20 @@ class HomeState extends BaseState<HomeScreen> {
 
     for (Chapter content in chaptersList)
       columnContent.add(
-        new ListTile(
-          title: new Text(content.moduleTitle, style: _buildTextStyle(20),),
-          trailing: new Icon(Icons.arrow_right),
-          onTap: () {
+        Card(
+          elevation: 8.0,
+          margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+          child: Container(
+            decoration: BoxDecoration(color: Colors.white),
+            padding: EdgeInsets.all(10),
+            child: new ListTile(
+              title: new Text(content.moduleTitle, style: _buildTextStyleBlack(20),),
+              trailing: new Icon(Icons.arrow_right),
+              onTap: () {
 
-          },
+              },
+            ),
+          ),
         ),
       );
 
