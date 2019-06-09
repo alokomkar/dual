@@ -62,25 +62,21 @@ class HomeState extends BaseState<HomeScreen> {
     margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
     child: Container(
       decoration: BoxDecoration(color: colorCode),
-      child: _makeListTile(key, chaptersList),
+      child: _makeExpansionTile(key, chaptersList),
     ),
   );
 
-  ListTile _makeListTile(String key, List<Chapter> chaptersList) => ListTile(
-      contentPadding:
-      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+  ExpansionTile _makeExpansionTile(String key, List<Chapter> chaptersList) => ExpansionTile(
       title: Text(
         key,
         style:  _buildTextStyle(24),
       ),
-      subtitle: Padding(
-          padding: EdgeInsets.only(top: 8),
-          child: Text("Subtopics : ${chaptersList.asMap().keys.length}",
-              style: _buildTextStyle(14))),
-      trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
-      onTap : () {
+      children: <Widget>[
+        Column(
+          children: _buildExpandableContent(chaptersList),
+        )
+      ],
 
-      }
   );
 
   TextStyle _buildTextStyle( double fontSize ) {
@@ -89,6 +85,23 @@ class HomeState extends BaseState<HomeScreen> {
         fontSize: fontSize,
         color: Colors.white,
       );
+  }
+
+  _buildExpandableContent(List<Chapter> chaptersList) {
+    List<Widget> columnContent = [];
+
+    for (Chapter content in chaptersList)
+      columnContent.add(
+        new ListTile(
+          title: new Text(content.moduleTitle, style: _buildTextStyle(20),),
+          trailing: new Icon(Icons.arrow_right),
+          onTap: () {
+
+          },
+        ),
+      );
+
+    return columnContent;
   }
 
 }
