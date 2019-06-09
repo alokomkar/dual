@@ -22,22 +22,27 @@ class HomeState extends BaseState<HomeScreen> {
     return _buildContent();
   }
 
-  final topAppBar = AppBar(
+  AppBar _buildAppBar() => AppBar(
     elevation: 0.1,
     backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-    title: Text("Home"),
+    title: Text("Home",
+    style: _buildTextStyle(22),),
   );
 
   Widget _buildContent() {
     if( userState.user != null ) {
       if( userPreferences.getSelectedLanguage().isEmpty )
-        return new LanguageSelectionScreen();
-      else return Scaffold(
-          appBar: topAppBar,
-          body : Center( child : _buildListView()));
+        return LanguageSelectionScreen();
+      else return _buildBody();
     }
     else
-      return new LoginScreen();
+      return LoginScreen();
+  }
+
+  Scaffold _buildBody() {
+    return Scaffold(
+        appBar: _buildAppBar(),
+        body : Center( child : _buildListView()));
   }
 
   ListView _buildListView() => ListView.builder(
@@ -66,16 +71,24 @@ class HomeState extends BaseState<HomeScreen> {
       EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       title: Text(
         key,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        style:  _buildTextStyle(24),
       ),
       subtitle: Padding(
           padding: EdgeInsets.only(top: 8),
           child: Text("Subtopics : ${chaptersList.asMap().keys.length}",
-              style: TextStyle(color: Colors.white))),
+              style: _buildTextStyle(14))),
       trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
       onTap : () {
 
       }
   );
+
+  TextStyle _buildTextStyle( double fontSize ) {
+    return TextStyle(
+        fontFamily: 'VarelaRound-Regular',
+        fontSize: fontSize,
+        color: Colors.white,
+      );
+  }
 
 }

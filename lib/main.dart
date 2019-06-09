@@ -1,3 +1,4 @@
+import 'package:dual_mode/ui/chapters/chapter_topics.dart';
 import 'package:dual_mode/ui/home.dart';
 import 'package:dual_mode/ui/language/language_selection.dart';
 import 'package:dual_mode/ui/login.dart';
@@ -23,6 +24,7 @@ class DualCodeApp extends StatelessWidget {
         '/': (context) => HomeScreen(),
         '/login': (context) => LoginScreen(),
         '/language': (context) => LanguageSelectionScreen(),
+        '/chapters_topics': (context) => ChapterTopicsScreen(),
       },
     );
   }
