@@ -48,14 +48,15 @@ class HomeState extends BaseState<HomeScreen> {
       itemBuilder: (context, position) {
         String key = chaptersMap.keys.elementAt(position);
         List<Chapter> chaptersList = chaptersMap[key];
-        return _makeCard(key, chaptersList);
+        Color colorCode = position % 2 == 0 ? Colors.grey : Colors.blueGrey;
+        return _makeCard(colorCode, key, chaptersList);
       });
 
-  Card _makeCard(String key, List<Chapter> chaptersList) => Card(
+  Card _makeCard(Color colorCode, String key, List<Chapter> chaptersList) => Card(
     elevation: 8.0,
     margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
     child: Container(
-      decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+      decoration: BoxDecoration(color: colorCode),
       child: _makeListTile(key, chaptersList),
     ),
   );
