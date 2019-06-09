@@ -6,7 +6,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
 
   bool isLoading = false;
   UserState userState;
-  UserPreferences userPreferences = UserPreferences();
+  UserPreferences userPreferences;
 
   toggleProgressBar( bool isVisible ) {
     setState(() {

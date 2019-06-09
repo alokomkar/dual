@@ -14,6 +14,7 @@ class HomeState extends BaseState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     userState = AppStateWidget.of(context).userState;
+    userPreferences = AppStateWidget.of(context).userPreferences;
     return _buildContent();
   }
 

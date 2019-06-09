@@ -31,6 +31,7 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     userState = AppStateWidget.of(context).userState;
+    userPreferences = AppStateWidget.of(context).userPreferences;
     dbReference = dbConnection.read();
     return _buildContent();
   }

@@ -1,3 +1,4 @@
+import 'package:dual_mode/base/base_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dual_mode/auth/auth.dart';
@@ -28,6 +29,7 @@ class AppStateWidget extends StatefulWidget {
 class _AppStateWidgetState extends State<AppStateWidget> {
 
   UserState userState;
+  UserPreferences userPreferences = UserPreferences();
 
   @override
   void initState() {
