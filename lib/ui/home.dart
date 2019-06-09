@@ -44,7 +44,7 @@ class HomeState extends BaseState<HomeScreen> {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       itemCount: chaptersMap.length,
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(8),
       itemBuilder: (context, position) {
         String key = chaptersMap.keys.elementAt(position);
         List<Chapter> chaptersList = chaptersMap[key];
@@ -76,8 +76,5 @@ class HomeState extends BaseState<HomeScreen> {
 
       }
   );
-
-
-
 
 }
