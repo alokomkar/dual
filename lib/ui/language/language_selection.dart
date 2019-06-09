@@ -21,6 +21,7 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
     child: ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
+      padding: EdgeInsets.all(8),
       itemCount: codeLanguages.length,
       itemBuilder: (BuildContext context, int index) {
         return makeCard(codeLanguages[index]);
