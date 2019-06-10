@@ -1,8 +1,8 @@
 import 'package:dual_mode/app_state_widget.dart';
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/ui/chapters/chapters.dart';
-import 'package:dual_mode/ui/language/language_selection.dart';
-import 'package:dual_mode/ui/login.dart';
+import 'package:dual_mode/ui/language/language_selection_screen.dart';
+import 'package:dual_mode/ui/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,13 +22,6 @@ class HomeState extends BaseState<HomeScreen> {
     return _buildContent();
   }
 
-  AppBar _buildAppBar() => AppBar(
-    elevation: 0.1,
-    backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-    title: Text("Home",
-      style: _buildTextStyle(22),),
-  );
-
   Widget _buildContent() {
     if( userState.user != null ) {
       if( userPreferences.getSelectedLanguage().isEmpty )
@@ -41,7 +34,7 @@ class HomeState extends BaseState<HomeScreen> {
 
   Scaffold _buildBody() {
     return Scaffold(
-        appBar: _buildAppBar(),
+        appBar: buildAppBar("Home"),
         body : Center( child : _buildListView()));
   }
 
@@ -72,7 +65,7 @@ class HomeState extends BaseState<HomeScreen> {
   ExpansionTile _makeExpansionTile(String chapterTitle, List<Chapter> chaptersList) => ExpansionTile(
     title: Text(
       chapterTitle,
-      style:  _buildTextStyle(24),
+      style:  buildTextStyle(24),
     ),
     children: <Widget>[
       Column(
@@ -81,22 +74,6 @@ class HomeState extends BaseState<HomeScreen> {
     ],
 
   );
-
-  TextStyle _buildTextStyleBlack( double fontSize ) {
-    return TextStyle(
-      fontFamily: 'VarelaRound-Regular',
-      fontSize: fontSize,
-      color: Colors.black,
-    );
-  }
-
-  TextStyle _buildTextStyle( double fontSize ) {
-    return TextStyle(
-      fontFamily: 'VarelaRound-Regular',
-      fontSize: fontSize,
-      color: Colors.white,
-    );
-  }
 
   _buildExpandableContent(List<Chapter> chaptersList) {
     List<Widget> columnContent = [];
@@ -110,10 +87,10 @@ class HomeState extends BaseState<HomeScreen> {
             decoration: BoxDecoration(color: Colors.white),
             padding: EdgeInsets.all(10),
             child: new ListTile(
-              title: new Text(content.moduleTitle, style: _buildTextStyleBlack(20),),
+              title: new Text(content.moduleTitle, style: buildTextStyleBlack(20),),
               trailing: new Icon(Icons.arrow_right),
               onTap: () {
-
+                Navigator.of(context).pushReplacementNamed("/chapters_topics");
               },
             ),
           ),

@@ -1,7 +1,7 @@
-import 'package:dual_mode/ui/chapters/chapter_topics.dart';
-import 'package:dual_mode/ui/home.dart';
-import 'package:dual_mode/ui/language/language_selection.dart';
-import 'package:dual_mode/ui/login.dart';
+import 'package:dual_mode/ui/chapters/simple_topics_screen.dart';
+import 'package:dual_mode/ui/home_screen.dart';
+import 'package:dual_mode/ui/language/language_selection_screen.dart';
+import 'package:dual_mode/ui/login_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'app_state_widget.dart';
@@ -16,7 +16,7 @@ class DualCodeApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Dual Code',
       //theme: buildTheme(),
-      //initialRoute: "/",
+      //initialRoute: "/chapters_topic",
       routes: {
         // If you're using navigation routes, Flutter needs a base route.
         // We're going to change this route once we're ready with
@@ -24,7 +24,7 @@ class DualCodeApp extends StatelessWidget {
         '/': (context) => HomeScreen(),
         '/login': (context) => LoginScreen(),
         '/language': (context) => LanguageSelectionScreen(),
-        '/chapters_topics': (context) => ChapterTopicsScreen(),
+        '/chapters_topics': (context) => SimpleContentScreen(),
       },
     );
   }

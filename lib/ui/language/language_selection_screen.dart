@@ -50,16 +50,10 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
     debugPrint("Error");
   }
 
-  final topAppBar = AppBar(
-    elevation: 0.1,
-    backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-    title: Text("Select Language"),
-  );
-
   _buildBody() {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-        appBar: topAppBar,
+        backgroundColor: Colors.white,
+        appBar: buildAppBar("Select Language"),
         body : _makeBody()
     );
   }
