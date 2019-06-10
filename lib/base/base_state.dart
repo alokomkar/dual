@@ -35,12 +35,21 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     );
   }
 
-  TextStyle buildTextSimpleContent( double fontSize ) {
+  TextStyle buildTextSimpleContent( double fontSize, Color color ) {
     return TextStyle(
       fontFamily: 'VarelaRound-Regular',
       fontSize: fontSize,
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: color,
       color: Colors.white,
+    );
+  }
+
+  TextStyle buildTextSimpleContentBlack( double fontSize, Color color ) {
+    return TextStyle(
+      fontFamily: 'VarelaRound-Regular',
+      fontSize: fontSize,
+      backgroundColor: color,
+      color: Colors.black,
     );
   }
 
