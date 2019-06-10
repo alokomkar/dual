@@ -52,4 +52,12 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    initializeData();
+  }
+
+  void initializeData();
+
 }

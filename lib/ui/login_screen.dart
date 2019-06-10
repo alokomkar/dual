@@ -181,5 +181,8 @@ class LoginState extends BaseState<LoginScreen> {
     });
   }
 
+  @override
+  void initializeData() {}
+
 }
 

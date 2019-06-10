@@ -17,6 +17,11 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
 
   List<CodeLanguage> codeLanguages = List();
 
+  @override
+  void initializeData() {
+    dbReference = dbConnection.read();
+  }
+
   Widget _makeBody() => Container(
     child: ListView.builder(
       scrollDirection: Axis.vertical,
@@ -30,14 +35,11 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
   );
 
   @override
-  Widget build(BuildContext context) {
-    userState = AppStateWidget.of(context).userState;
-    userPreferences = AppStateWidget.of(context).userPreferences;
-    dbReference = dbConnection.read();
-    return _buildContent();
-  }
+  Widget build(BuildContext context) => _buildContent();
 
   Widget _buildContent() {
+    userPreferences = AppStateWidget.of(context).userPreferences;
+    userState = AppStateWidget.of(context).userState;
     _loadLanguages();
     return Scaffold(body: Stack(
       children: <Widget>[
@@ -92,18 +94,20 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
     ),
     title: Text(
       language.language,
-      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      style: buildTextStyle(20),
     ),
     subtitle: Padding(
         padding: EdgeInsets.only(top: 8),
         child: Text(language.description,
-            style: TextStyle(color: Colors.white))),
+            style: buildTextStyle(16))),
     trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
     onTap : () {
       userPreferences.setSelectedLanguage(language.language);
       Navigator.of(context).pushReplacementNamed("/");
     }
   );
+
+
 
 
 

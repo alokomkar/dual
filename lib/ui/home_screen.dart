@@ -12,17 +12,21 @@ class HomeScreen extends StatefulWidget {
 
 class HomeState extends BaseState<HomeScreen> {
 
+  //Called from base initstate - always make initializations and data calls here.
+  @override
+  void initializeData() {
+    chaptersMap = Chapter.getAllChapters();
+  }
+
   Map<String, List<Chapter>> chaptersMap;
 
   @override
-  Widget build(BuildContext context) {
-    chaptersMap = Chapter.getAllChapters();
-    userState = AppStateWidget.of(context).userState;
-    userPreferences = AppStateWidget.of(context).userPreferences;
-    return _buildContent();
-  }
+  Widget build(BuildContext context) => _buildContent();
+
 
   Widget _buildContent() {
+    userState = AppStateWidget.of(context).userState;
+    userPreferences = AppStateWidget.of(context).userPreferences;
     if( userState.user != null ) {
       if( userPreferences.getSelectedLanguage().isEmpty )
         return LanguageSelectionScreen();
@@ -90,7 +94,7 @@ class HomeState extends BaseState<HomeScreen> {
               title: new Text(content.moduleTitle, style: buildTextStyleBlack(20),),
               trailing: new Icon(Icons.arrow_right),
               onTap: () {
-                Navigator.of(context).pushReplacementNamed("/chapters_topics");
+                Navigator.of(context).pushNamed("/chapters_topics");
               },
             ),
           ),
@@ -99,5 +103,7 @@ class HomeState extends BaseState<HomeScreen> {
 
     return columnContent;
   }
+
+
 
 }

@@ -10,29 +10,32 @@ class SimpleContentScreen extends StatefulWidget {
 
 class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
 
-  List<SimpleContent> simpleContentList;
-  List<SimpleContent> displayList = List();
+
+  List<SimpleContent> _simpleContentList;
+  List<SimpleContent> _displayList = List();
   int _currentIndex = 0;
 
   @override
-  Widget build(BuildContext context) {
-
-    simpleContentList = getOOFirstContent();
-    displayList.add(simpleContentList[_currentIndex++]);
-
-    return Scaffold(
-      appBar: buildAppBar("Introduction"),
-      body: _buildListView(),
-      floatingActionButton: _buildFab(),
-    );
+  void initializeData() {
+    _simpleContentList = getOOFirstContent();
+    _displayList.add(_simpleContentList[_currentIndex]);
   }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: buildAppBar("Introduction"),
+    body: _buildListView(),
+    floatingActionButton: _buildFab(),
+  );
+
 
   FloatingActionButton _buildFab() => FloatingActionButton(
     onPressed: () {
-      setState(() {
-        if( _currentIndex < simpleContentList.length - 2 )
-          displayList.add(simpleContentList[_currentIndex++]);
-      });
+      if( _currentIndex < _simpleContentList.length - 1 ) {
+        setState(() {
+          _displayList.add(_simpleContentList[++_currentIndex]);
+        });
+      }
     },
     child: Icon(Icons.navigate_next),
     foregroundColor: Colors.white,
@@ -40,27 +43,27 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   );
 
   ListView _buildListView() => ListView.builder(
-      itemCount: displayList.length,
+      key: Key("_simple_content_list"),
+      itemCount: _displayList.length,
       itemBuilder: (context, position) {
-        return _buildItemView( displayList[position] );
+        return _buildItemView( _displayList[position] );
       }
   );
 
   _buildItemView(SimpleContent displayList) => Container(
-    padding: const EdgeInsets.all(12),
-    margin: EdgeInsets.fromLTRB(0, 8, 32, 0),
-    decoration: BoxDecoration(color: Colors.blueAccent),
-    child : Row (
-    mainAxisSize: MainAxisSize.max,
-    mainAxisAlignment: MainAxisAlignment.start,
-    children : <Widget>[
-      new Text(
+      padding: displayList.contentType == SimpleContent.image ? const EdgeInsets.all(0) : const EdgeInsets.all(12),
+      margin: displayList.contentType == SimpleContent.image ? EdgeInsets.fromLTRB(0, 8, 0, 8) : EdgeInsets.fromLTRB(0, 8, 32, 8),
+      decoration: BoxDecoration(color: Colors.blueAccent),
+      child : displayList.contentType == SimpleContent.image ?
+      Image.network(
+          displayList.contentString)
+          :
+      Text(
           displayList.contentString,
           style: buildTextSimpleContent(20))
-      ,
-    ],
-  )
   );
+
+
 
 
 }
