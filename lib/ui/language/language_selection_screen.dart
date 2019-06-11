@@ -20,6 +20,7 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
   @override
   void initializeData() {
     dbReference = dbConnection.read();
+    _loadLanguages();
   }
 
   Widget _makeBody() => Container(
@@ -40,10 +41,10 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
   Widget _buildContent() {
     userPreferences = AppStateWidget.of(context).userPreferences;
     userState = AppStateWidget.of(context).userState;
-    _loadLanguages();
     return Scaffold(body: Stack(
       children: <Widget>[
-        _buildBody()
+        _buildBody(),
+        buildProgressBar()
       ],
     ));
   }
@@ -62,11 +63,11 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
 
 
   void _loadLanguages() {
-    //toggleProgressBar(true);
+    toggleProgressBar(true);
     dbReference.once().then((snapshot) {
       codeLanguages = CodeLanguage.parseData(snapshot);
-      //toggleProgressBar(false);
       setState((){
+        toggleProgressBar(false);
         codeLanguages = codeLanguages;
       });
 
