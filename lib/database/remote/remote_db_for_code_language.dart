@@ -1,5 +1,5 @@
-import 'package:dual_mode/database/constants.dart';
-import 'package:dual_mode/database/database_crud_interface.dart';
+import 'package:dual_mode/database/remote/constants.dart';
+import 'package:dual_mode/database/remote/remote_db_base_interface.dart';
 import 'package:dual_mode/ui/language/code_language.dart';
 import 'package:firebase_database/firebase_database.dart';
 

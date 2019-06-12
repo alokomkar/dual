@@ -1,4 +1,4 @@
-import 'package:dual_mode/database/constants.dart';
+import 'package:dual_mode/database/remote/constants.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 abstract class DBCrudInterface<T> {
@@ -8,6 +8,7 @@ abstract class DBCrudInterface<T> {
 
   DBCrudInterface( String dbUrl ) {
     databaseReference = database.reference().child( pcDBVersion + "/" + dbUrl );
+    databaseReference.keepSynced(true);
   }
 
   Future<void> insert( T item );
