@@ -39,7 +39,8 @@ class HomeState extends BaseState<HomeScreen> {
   Scaffold _buildBody() {
     return Scaffold(
         appBar: buildAppBar("Home"),
-        body : Center( child : _buildListView()));
+        body : Center( child : _buildListView())
+    );
   }
 
   ListView _buildListView() => ListView.builder(

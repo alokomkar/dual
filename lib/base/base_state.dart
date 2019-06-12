@@ -61,6 +61,10 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     );
   }
 
+  void showSnackBar(BuildContext context, String msg) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
   @override
   void initState() {
     super.initState();
