@@ -95,8 +95,8 @@ class HomeState extends BaseState<HomeScreen> {
               title: new Text(content.moduleTitle, style: buildTextStyleBlack(20),),
               trailing: new Icon(Icons.arrow_right),
               onTap: () {
-                //Navigator.of(context).pushNamed("/chapters_topics");
-                Navigator.of(context).pushNamed("/reorderable_list");
+                Navigator.of(context).pushNamed("/chapters_topics");
+                //Navigator.of(context).pushNamed("/reorderable_list");
               },
             ),
           ),
