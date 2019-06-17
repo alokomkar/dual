@@ -83,7 +83,7 @@ class LanguageSelectionState extends BaseState<LanguageSelectionScreen> {
     ),
   );
 
-  ListTile _makeListTile(CodeLanguage language) => ListTile(
+  _makeListTile(CodeLanguage language) => ListTile(
     contentPadding:
     EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
     leading: Container(

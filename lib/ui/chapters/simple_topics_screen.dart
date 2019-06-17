@@ -137,7 +137,7 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   }
 
   _initPractice(String contentString) {
-
+    Navigator.of(context).pushNamed("/reorderable_list");
   }
 
 

@@ -2,6 +2,7 @@ import 'package:dual_mode/ui/chapters/simple_topics_screen.dart';
 import 'package:dual_mode/ui/home_screen.dart';
 import 'package:dual_mode/ui/language/language_selection_screen.dart';
 import 'package:dual_mode/ui/login_screen.dart';
+import 'package:dual_mode/ui/rearrange_code_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'app_state_widget.dart';
@@ -25,6 +26,7 @@ class DualCodeApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/language': (context) => LanguageSelectionScreen(),
         '/chapters_topics': (context) => SimpleContentScreen(),
+        '/reorderable_list': (context) => RearrangeCodeScreen(),
       },
     );
   }
