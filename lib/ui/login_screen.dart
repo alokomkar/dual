@@ -1,6 +1,6 @@
 import 'package:dual_mode/app_state_widget.dart';
 import 'package:dual_mode/base/base_state.dart';
-import 'package:dual_mode/widgets/LoginButton.dart';
+import 'package:dual_mode/widgets/login_button.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/ui/simple_content/helper.dart';
 import 'package:dual_mode/ui/simple_content/simple_content.dart';
+import 'package:dual_mode/widgets/practice_button.dart';
 import 'package:flutter/material.dart';
 
 class SimpleContentScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   List<SimpleContent> _displayList = List();
   int _currentIndex = 0;
   ScrollController _controller = ScrollController();
-  int _animationDuration = 500;
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey();
 
   @override
   void initializeData() {
@@ -35,8 +36,9 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   FloatingActionButton _buildFab() => FloatingActionButton(
     onPressed: () {
       if( _currentIndex < _simpleContentList.length - 1 ) {
-        Timer(Duration(milliseconds: 50), () => _controller.jumpTo(_controller.position.maxScrollExtent));
+        Timer(Duration(milliseconds: 750), () => _controller.jumpTo(_controller.position.maxScrollExtent));
         setState(() {
+          _listKey.currentState.insertItem(_displayList.length, duration: Duration(milliseconds: 700));
           _displayList.add(_simpleContentList[++_currentIndex]);
         });
       }
@@ -46,14 +48,20 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
     backgroundColor: Colors.blueGrey,
   );
 
-  ListView _buildListView() => ListView.builder(
+  _buildListView() => AnimatedList(
       padding: EdgeInsets.fromLTRB(0, 0, 0, 72),
-      key: Key("_simple_content_list"),
-      controller: _controller,
-      itemCount: _displayList.length,
-      itemBuilder: (context, position) {
-        return _buildItemView( _displayList[position] );
+      key: _listKey,
+      initialItemCount: _displayList.length,
+      itemBuilder: (context, position, animation) {
+        return _buildAnimatedItemView( _displayList[position], position, animation );
       }
+  );
+
+  _buildAnimatedItemView(SimpleContent displayList, int position, Animation<double> animation) => SizeTransition(
+    key: ValueKey(position),
+    axis: Axis.vertical,
+    sizeFactor: animation,
+    child: _buildItemView(displayList),
   );
 
   _buildItemView(SimpleContent displayList) {
@@ -87,28 +95,22 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
 
       case SimpleContent.code :
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          textDirection: TextDirection.rtl,
+          mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-          MaterialButton(
-            height: 40.0,
-            onPressed: _initPractice(displayList.contentString),
-            color: Colors.green,
-            //padding: const EdgeInsets.all(32.0),
-            child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Text("Practice now", textAlign: TextAlign.end, style: buildTextSimpleContent(16, Colors.green)),
-              ])
-          ),
-          Container(
-            //duration: Duration(milliseconds: _animationDuration),
-            padding: const EdgeInsets.fromLTRB(36, 8, 36, 8),
-            margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-            decoration: BoxDecoration(color: Colors.black),
-            child :
-            Text(displayList.contentString, textAlign: TextAlign.start, style: buildTextSimpleContent(16, Colors.black)),
-          )],
+            PracticeButton(
+                buttonColor: Colors.green,
+                buttonText : "Practice Now",
+                onClick: () => _initPractice(displayList.contentString)),
+            Container(
+              padding: const EdgeInsets.fromLTRB(36, 8, 48, 8),
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
+              decoration: BoxDecoration(color: Colors.black),
+              child :
+              Text(displayList.contentString, textAlign: TextAlign.start, style: buildTextSimpleContent(16, Colors.black)),
+            )],
         );
 
       case SimpleContent.image :
@@ -137,5 +139,7 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   _initPractice(String contentString) {
 
   }
+
+
 
 }
