@@ -120,8 +120,8 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
               child: PracticeButton(
                   buttonColor: Colors.green,
                   buttonText : "Practice Now",
-                  onClick: () => _initPractice(displayList.contentString)) ,)
-            ,
+                  onClick: () => _initPractice(displayList.contentString)) ,
+            ),
             Container(
               padding: const EdgeInsets.fromLTRB(36, 8, 88, 8),
               margin: EdgeInsets.fromLTRB(0, 0, 0, 8),

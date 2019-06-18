@@ -89,7 +89,7 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
         code.value,
         style: TextStyle(
             fontFamily: 'VarelaRound-Regular',
-            fontSize: 18,
+            fontSize: 17,
             color: !_isChecked ? Colors.black : Colors.white,
             backgroundColor: !_isChecked ? Colors.white : code.checkState ? Colors.green : Colors.red
         ),),
