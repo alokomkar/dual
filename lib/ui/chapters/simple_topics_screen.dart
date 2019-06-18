@@ -47,11 +47,12 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
     onPressed: () {
       if( _currentIndex < _simpleContentList.length - 1 ) {
         setState(() {
-          _listKey.currentState.insertItem(_displayList.length, duration: Duration(milliseconds: 700));
+          _listKey.currentState.insertItem(_displayList.length, duration: Duration(milliseconds: 500));
           _displayList.add(_simpleContentList[++_currentIndex]);
         });
+        //_controller.animateTo(_controller.position.maxScrollExtent, duration: Duration(milliseconds: 700), curve: Curves.easeOut);
         //_controller.jumpTo(_controller.position.maxScrollExtent);
-        Timer(Duration(milliseconds: 800), () => _controller.jumpTo(_controller.position.maxScrollExtent));
+        Timer(Duration(milliseconds: 520), () => _controller.jumpTo(_controller.position.maxScrollExtent));
       }
     },
     child: Icon(Icons.navigate_next),
