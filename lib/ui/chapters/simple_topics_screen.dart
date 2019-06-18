@@ -4,6 +4,7 @@ import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/ui/simple_content/helper.dart';
 import 'package:dual_mode/ui/simple_content/simple_content.dart';
 import 'package:dual_mode/widgets/practice_button.dart';
+import 'package:dual_mode/widgets/syntax_highlighter.dart';
 import 'package:flutter/material.dart';
 
 class SimpleContentScreen extends StatefulWidget {
@@ -19,6 +20,8 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
 
+  SyntaxHighlighterStyle style;
+
   @override
   void initializeData() {
     _simpleContentList = getOOFirstContent();
@@ -26,12 +29,19 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: buildAppBar("Introduction"),
-    body: _buildListView(),
-    floatingActionButton: _buildFab(),
-    floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-  );
+  Widget build(BuildContext context){
+
+    style = SyntaxHighlighterStyle.darkThemeStyle()/*Theme.of(context).brightness == Brightness.dark
+        ? SyntaxHighlighterStyle.darkThemeStyle()
+        : SyntaxHighlighterStyle.lightThemeStyle()*/;
+
+    return Scaffold(
+      appBar: buildAppBar("Introduction"),
+      body: _buildListView(),
+      floatingActionButton: _buildFab(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
 
   FloatingActionButton _buildFab() => FloatingActionButton(
     onPressed: () {
@@ -105,11 +115,18 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
                 buttonText : "Practice Now",
                 onClick: () => _initPractice(displayList.contentString)),
             Container(
-              padding: const EdgeInsets.fromLTRB(36, 8, 48, 8),
+              padding: const EdgeInsets.fromLTRB(36, 8, 88, 8),
               margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
               decoration: BoxDecoration(color: Colors.black),
-              child :
-              Text(displayList.contentString, textAlign: TextAlign.start, style: buildTextSimpleContent(16, Colors.black)),
+              child : RichText(
+                text: TextSpan(
+                  style: TextStyle(fontFamily: 'VarelaRound-Regular', fontSize: 14),
+                  children: <TextSpan>[
+                    DartSyntaxHighlighter(style).format(displayList.contentString)
+                  ],
+                ),
+
+              ),
             )],
         );
 
