@@ -33,7 +33,8 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
     onReorder: _onReorder,
     children: _modifiedList.map<Widget>(_buildListTitle).toList(),
   )
-      : ListView(
+      :
+  ListView(
     scrollDirection: Axis.vertical,
     children: _modifiedList.map<Widget>(_buildListTitle).toList(),
   );
@@ -83,7 +84,10 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
 
   Widget _buildListTitle(_ListItem code) => Container(
     key: Key(code.id.toString()),
-    decoration: BoxDecoration(color: !_isChecked ? Colors.white : code.checkState ? Colors.green : Colors.red),
+    decoration: BoxDecoration(
+        color: !_isChecked ? Colors.white : code.checkState ? Colors.green : Colors.red,
+      border: Border(bottom: BorderSide(color: Colors.grey, width: 1))
+    ),
     child: ListTile(
       title: Text(
         code.value,
