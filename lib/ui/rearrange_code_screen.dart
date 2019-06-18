@@ -9,7 +9,8 @@ class RearrangeCodeScreen extends StatefulWidget {
 }
 
 class _ListItem {
-  _ListItem(this.value, this.checkState);
+  _ListItem(this.id, this.value, this.checkState);
+  final int id;
   final String value;
   bool checkState;
 }
@@ -54,11 +55,15 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
 
   @override
   void initializeData() {
-    _originalList.add(_ListItem("class HelloWorld {", false));
-    _originalList.add(_ListItem("public static void main( String args[] ) {", false));
-    _originalList.add(_ListItem("System.out.println(\"Hello World\");", false));
-    _originalList.add(_ListItem("}", false));
-    _originalList.add(_ListItem("}", false));
+
+    //Generating unique id to ensure key is always unique. - don't remove this
+
+    int id = 0;
+    _originalList.add(_ListItem(id++, "class HelloWorld {", false));
+    _originalList.add(_ListItem(id++, "public static void main( String args[] ) {", false));
+    _originalList.add(_ListItem(id++, "System.out.println(\"Hello World\");", false));
+    _originalList.add(_ListItem(id++, "}", false));
+    _originalList.add(_ListItem(id++, "}", false));
 
     _modifiedList.addAll(_originalList);
     _modifiedList.shuffle();
@@ -77,7 +82,7 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
   }
 
   Widget _buildListTitle(_ListItem code) => Container(
-    key: Key(code.value),
+    key: Key(code.id.toString()),
     decoration: BoxDecoration(color: !_isChecked ? Colors.white : code.checkState ? Colors.green : Colors.red),
     child: ListTile(
       title: Text(

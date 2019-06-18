@@ -46,11 +46,12 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   FloatingActionButton _buildFab() => FloatingActionButton(
     onPressed: () {
       if( _currentIndex < _simpleContentList.length - 1 ) {
-        Timer(Duration(milliseconds: 750), () => _controller.jumpTo(_controller.position.maxScrollExtent));
         setState(() {
           _listKey.currentState.insertItem(_displayList.length, duration: Duration(milliseconds: 700));
           _displayList.add(_simpleContentList[++_currentIndex]);
         });
+        //_controller.jumpTo(_controller.position.maxScrollExtent);
+        Timer(Duration(milliseconds: 800), () => _controller.jumpTo(_controller.position.maxScrollExtent));
       }
     },
     child: Icon(Icons.navigate_next),
@@ -59,6 +60,7 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   );
 
   _buildListView() => AnimatedList(
+      controller: _controller,
       padding: EdgeInsets.fromLTRB(0, 0, 0, 72),
       key: _listKey,
       initialItemCount: _displayList.length,
