@@ -13,18 +13,17 @@ class PracticeButton extends StatelessWidget {
     textAlign: TextAlign.center,
     style: TextStyle(
       fontFamily: 'VarelaRound-Regular',
-      fontSize: 16,
+      fontSize: 15,
       color: Colors.white,
     ),
   );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      height: 20,
+    return FlatButton(
       onPressed: this.onClick,
       color: buttonColor,
-      padding: const EdgeInsets.all(16.0),
+      //padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,

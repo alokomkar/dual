@@ -110,10 +110,15 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            PracticeButton(
-                buttonColor: Colors.green,
-                buttonText : "Practice Now",
-                onClick: () => _initPractice(displayList.contentString)),
+            SizedBox(height: 12,),
+            SizedBox(
+              height: 44,
+              width: 130,
+              child: PracticeButton(
+                  buttonColor: Colors.green,
+                  buttonText : "Practice Now",
+                  onClick: () => _initPractice(displayList.contentString)) ,)
+            ,
             Container(
               padding: const EdgeInsets.fromLTRB(36, 8, 88, 8),
               margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
