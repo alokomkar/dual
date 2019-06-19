@@ -24,7 +24,24 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: buildAppBar("Reorder"),
-    body: _buildListView(),
+    body: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(
+          width: double.infinity,
+          child: Container(
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(color : Colors.black54),
+            child: Text(
+                "Rearrange in the correct order",
+                style: buildTextStyle(16),
+                textAlign: TextAlign.start),
+          ),
+        ),
+        Divider(height: 1, color: Colors.grey,),
+        Expanded(child: _buildListView(),),
+      ],
+    ),
     floatingActionButton: _buildFab(),
     floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
   );
@@ -86,7 +103,7 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
     key: Key(code.id.toString()),
     decoration: BoxDecoration(
         color: !_isChecked ? Colors.white : code.checkState ? Colors.green : Colors.red,
-      border: Border(bottom: BorderSide(color: Colors.grey, width: 1))
+        border: Border(bottom: BorderSide(color: Colors.grey, width: 1))
     ),
     child: ListTile(
       title: Text(
