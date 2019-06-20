@@ -2,7 +2,7 @@ import 'package:dual_mode/app_state_widget.dart';
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/ui/chapters/chapters.dart';
 import 'package:dual_mode/ui/language/language_selection_screen.dart';
-import 'package:dual_mode/ui/login_screen.dart';
+import 'package:dual_mode/ui/signup/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
