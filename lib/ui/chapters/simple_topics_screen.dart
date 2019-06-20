@@ -20,8 +20,6 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
 
-  SyntaxHighlighterStyle style;
-
   @override
   void initializeData() {
     _simpleContentList = getOOFirstContent();
@@ -30,10 +28,6 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
 
   @override
   Widget build(BuildContext context){
-
-    style = SyntaxHighlighterStyle.darkThemeStyle()/*Theme.of(context).brightness == Brightness.dark
-        ? SyntaxHighlighterStyle.darkThemeStyle()
-        : SyntaxHighlighterStyle.lightThemeStyle()*/;
 
     return Scaffold(
       appBar: buildAppBar("Introduction"),
@@ -122,20 +116,8 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
                   buttonText : "Practice Now",
                   onClick: () => _initPractice(displayList.contentString)) ,
             ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(36, 8, 88, 8),
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
-              decoration: BoxDecoration(color: Colors.black),
-              child : RichText(
-                text: TextSpan(
-                  style: TextStyle(fontFamily: 'VarelaRound-Regular', fontSize: 14),
-                  children: <TextSpan>[
-                    DartSyntaxHighlighter(style).format(displayList.contentString)
-                  ],
-                ),
-
-              ),
-            )],
+            buildCodeBlock(displayList.contentString, 14)
+          ],
         );
 
       case SimpleContent.image :
@@ -176,6 +158,39 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
                 )
                 ,
                 Divider(color: Colors.red, height: 5,),
+              ],
+            ),
+          )
+          ,
+        );
+
+      case SimpleContent.codeMcq :
+        return Container(
+          padding:  const EdgeInsets.all(0),
+          margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Divider(color: Colors.cyan, height: 5,),
+                Material(
+                  borderRadius: BorderRadius.circular(8),
+                  child: MaterialButton(
+                    minWidth: 250,
+                    color: Colors.cyan,
+                    textColor: Colors.white,
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/multi_choice_code");
+                    },
+                    child: Text("Code Quiz", style: buildTextStyle(16),
+                    ),
+                  ),
+                )
+                ,
+                Divider(color: Colors.cyan, height: 5,),
               ],
             ),
           )

@@ -1,6 +1,7 @@
 import 'package:dual_mode/ui/chapters/simple_topics_screen.dart';
 import 'package:dual_mode/ui/home/home_screen.dart';
 import 'package:dual_mode/ui/language/language_selection_screen.dart';
+import 'package:dual_mode/ui/questions/multichoice_code_screen.dart';
 import 'package:dual_mode/ui/questions/multichoice_screen.dart';
 import 'package:dual_mode/ui/signup/login_screen.dart';
 import 'package:dual_mode/ui/questions/rearrange_code_screen.dart';
@@ -29,6 +30,7 @@ class DualCodeApp extends StatelessWidget {
         '/chapters_topics': (context) => SimpleContentScreen(),
         '/reorderable_list': (context) => RearrangeCodeScreen(),
         '/multi_choice': (context) => MultiChoiceScreen(),
+        '/multi_choice_code': (context) => MultiChoiceCodeScreen(),
       },
     );
   }

@@ -1,34 +1,41 @@
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/ui/questions/question_item.dart';
+import 'package:dual_mode/widgets/syntax_highlighter.dart';
 import 'package:flutter/material.dart';
 
-class MultiChoiceScreen extends StatefulWidget {
+class MultiChoiceCodeScreen extends StatefulWidget {
   @override
-  _MultiChoiceScreenState createState() {
-    return _MultiChoiceScreenState();
+  _MultiChoiceCodeScreenState createState() {
+    return _MultiChoiceCodeScreenState();
   }
 }
 
-class _MultiChoiceScreenState extends BaseState<MultiChoiceScreen> {
+class _MultiChoiceCodeScreenState extends BaseState<MultiChoiceCodeScreen> {
 
   List<QuestionItem> _answersList = List();
   List<QuestionItem> _optionsList = List();
+  String _questionCode = "/**\n" +
+      " * The HelloWorldApp class implements an application that\n" +
+      " * simply displays \"Hello World!\" to the standard output.\n" +
+      " */";
+  String _question = "What's this comment type?";
   bool _isChecked = false;
+
+
 
   @override
   void initializeData() {
-    
+
     int id = 0;
-    
-    _answersList.add(QuestionItem(id++, "Object Oriented", false));
-    _answersList.add(QuestionItem(id++, "Distributed", false));
-    _answersList.add(QuestionItem(id++, "Multithreaded", false));
-    _answersList.add(QuestionItem(id++, "Architecture neutral", false));
-    
-    _optionsList.add(QuestionItem(id++, "Not dynamic", false));
+
+    _answersList.add(QuestionItem(id++, "Multiline Comment", false));
+
+    _optionsList.add(QuestionItem(id++, "Single line Comment", false));
+    _optionsList.add(QuestionItem(id++, "Code", false));
+    _optionsList.add(QuestionItem(id++, "Doesn't mean anything", false));
     _optionsList.addAll(_answersList);
     _optionsList.shuffle();
-    
+
   }
 
   @override
@@ -68,11 +75,13 @@ class _MultiChoiceScreenState extends BaseState<MultiChoiceScreen> {
           padding: EdgeInsets.all(12),
           decoration: BoxDecoration(color : Colors.black54),
           child: Text(
-              "Java is :",
+              _question,
               style: buildTextStyle(16),
               textAlign: TextAlign.start),
         ),
       ),
+      Divider(height: 1, color: Colors.grey,),
+      buildCodeBlock(_questionCode, 12),
       Divider(height: 1, color: Colors.grey,),
       Expanded(child: _buildListView()),
     ],
@@ -109,4 +118,6 @@ class _MultiChoiceScreenState extends BaseState<MultiChoiceScreen> {
     ),
 
   );
+
+
 }

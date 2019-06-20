@@ -1,5 +1,6 @@
 import 'package:dual_mode/base/base_preferences.dart';
 import 'package:dual_mode/model/user_state.dart';
+import 'package:dual_mode/widgets/syntax_highlighter.dart';
 import 'package:flutter/material.dart';
 
 abstract class BaseState<T extends StatefulWidget> extends State<T> {
@@ -7,6 +8,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   bool isLoading = false;
   UserState userState;
   UserPreferences userPreferences;
+  SyntaxHighlighterStyle _style = SyntaxHighlighterStyle.darkThemeStyle();
 
   toggleProgressBar( bool isVisible ) {
     setState(() {
@@ -60,6 +62,22 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
       color: Colors.white,
     );
   }
+
+  buildCodeBlock( String code, double fontSize ) => SizedBox(
+    width: double.infinity,
+    child : Container(
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(color: Colors.black),
+      child: RichText(
+        text: TextSpan(
+          style: TextStyle(fontFamily: 'VarelaRound-Regular', fontSize: fontSize),
+          children: <TextSpan>[
+            DartSyntaxHighlighter(_style).format(code)
+          ],
+        ),
+      ),
+    ),
+  );
 
   void showSnackBar(BuildContext context, String msg) {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text(msg)));

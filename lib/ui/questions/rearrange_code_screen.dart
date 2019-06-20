@@ -1,4 +1,5 @@
 import 'package:dual_mode/base/base_state.dart';
+import 'package:dual_mode/ui/questions/question_item.dart';
 import 'package:flutter/material.dart';
 
 class RearrangeCodeScreen extends StatefulWidget {
@@ -8,17 +9,10 @@ class RearrangeCodeScreen extends StatefulWidget {
   }
 }
 
-class _ListItem {
-  _ListItem(this.id, this.value, this.checkState);
-  final int id;
-  final String value;
-  bool checkState;
-}
-
 class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
 
-  List<_ListItem> _originalList = List();
-  List<_ListItem> _modifiedList = List();
+  List<QuestionItem> _originalList = List();
+  List<QuestionItem> _modifiedList = List();
   bool _isChecked = false;
 
   @override
@@ -60,7 +54,7 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
     onPressed: () {
       setState(() {
         int index = 0;
-        _modifiedList.forEach((_ListItem item) {
+        _modifiedList.forEach((QuestionItem item) {
           item.checkState = item.value == _originalList[index++].value;
         });
         _isChecked = true;
@@ -77,11 +71,11 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
     //Generating unique id to ensure key is always unique. - don't remove this
 
     int id = 0;
-    _originalList.add(_ListItem(id++, "class HelloWorld {", false));
-    _originalList.add(_ListItem(id++, "public static void main( String args[] ) {", false));
-    _originalList.add(_ListItem(id++, "System.out.println(\"Hello World\");", false));
-    _originalList.add(_ListItem(id++, "}", false));
-    _originalList.add(_ListItem(id++, "}", false));
+    _originalList.add(QuestionItem(id++, "class HelloWorld {", false));
+    _originalList.add(QuestionItem(id++, "public static void main( String args[] ) {", false));
+    _originalList.add(QuestionItem(id++, "System.out.println(\"Hello World\");", false));
+    _originalList.add(QuestionItem(id++, "}", false));
+    _originalList.add(QuestionItem(id++, "}", false));
 
     _modifiedList.addAll(_originalList);
     _modifiedList.shuffle();
@@ -93,13 +87,13 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
         if (newIndex > oldIndex) {
           newIndex -= 1;
         }
-        final _ListItem item = _modifiedList.removeAt(oldIndex);
+        final QuestionItem item = _modifiedList.removeAt(oldIndex);
         _modifiedList.insert(newIndex, item);
       });
     }
   }
 
-  Widget _buildListTitle(_ListItem code) => Container(
+  Widget _buildListTitle(QuestionItem code) => Container(
     key: Key(code.id.toString()),
     decoration: BoxDecoration(
         color: !_isChecked ? Colors.white : code.checkState ? Colors.green : Colors.red,
