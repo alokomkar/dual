@@ -65,22 +65,30 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
   );
 
   _buildParentItem(String chapterTitle, List<Chapter> chaptersList, int position) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Container(
-        decoration: BoxDecoration(color: Colors.black54),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(chapterTitle, style: buildTextStyle(20),),
-            ),
-            _buildChildItem(chaptersList),
-            Divider(color: Colors.grey, height: 1,),
-          ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Container(
+          margin: EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              ListTile(
+                leading: CircleAvatar(
+                  child: Text(chapterTitle.substring(0, 1).toUpperCase(), style: buildTextStyle(24),),
+                  radius: 30,
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.blue,
+                ) ,
+                title : Text(chapterTitle, style: buildTextStyleBlack(20),),
+                onTap: () { Navigator.of(context).pushNamed("/chapters_topics", arguments: chaptersList); }, ),
+              //_buildChildItem(chaptersList),
+              //Divider(color: Colors.grey, height: 1,),
+            ],
+          ),
         ),
       ),
     );
