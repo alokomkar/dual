@@ -15,11 +15,13 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends BaseState<DashboardScreen> {
 
   Map<String, List<Chapter>> chaptersMap;
+  Map<String, String> chaptersSummaryMap;
 
   //Called from base initstate - always make initializations and data calls here.
   @override
   void initializeData() {
     chaptersMap = Chapter.getAllChapters();
+    chaptersSummaryMap = Chapter.getAllChaptersSummary(chaptersMap);
   }
 
   @override
@@ -74,7 +76,7 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
             child: Text(chapterTitle.substring(0, 1).toUpperCase(), style: buildTextStyle(24),),
             radius: 30,
             foregroundColor: Colors.white,
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.blue[900],
           ),
           contentPadding: EdgeInsets.all(2),
           title : Card(
@@ -88,7 +90,7 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
                     Text(chapterTitle, style: buildTextStyleBlack(20)),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(getModulesSummary(chaptersList), style: buildTextStyleBlack(16)),
+                      child: Text(chaptersSummaryMap[chapterTitle], style: buildTextStyleBlack(16)),
                     ),
                     LinearProgressIndicator(value: 30,)
                   ],
@@ -118,12 +120,6 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
     );
   }
 
-  String getModulesSummary(List<Chapter> chaptersList) {
-    String moduleSummary = "\n";
-    for( Chapter chapter in chaptersList ) {
-      moduleSummary += "${chapter.moduleTitle}\n";
-    }
-    return moduleSummary;
-  }
+
 
 }

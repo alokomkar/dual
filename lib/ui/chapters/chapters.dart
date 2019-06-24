@@ -193,6 +193,19 @@ class Chapter {
     
   }
 
+  static Map<String, String> getAllChaptersSummary(Map<String, List<Chapter>> chaptersMap) {
+    Map<String, String> chapterSummaryMap = new Map();
+      chaptersMap.forEach((key, chaptersList) {
+        String moduleSummary = "\n";
+        for( Chapter chapter in chaptersList ) {
+          moduleSummary += "${chapter.moduleTitle}\n";
+        }
+        chapterSummaryMap[key] = moduleSummary;
+      });
+    return chapterSummaryMap;
+  }
+
+
 
 
 
