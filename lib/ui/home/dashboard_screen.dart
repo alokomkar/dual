@@ -67,28 +67,32 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
   _buildParentItem(String chapterTitle, List<Chapter> chaptersList, int position) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: Container(
-          margin: EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              ListTile(
-                leading: CircleAvatar(
-                  child: Text(chapterTitle.substring(0, 1).toUpperCase(), style: buildTextStyle(24),),
-                  radius: 30,
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.blue,
-                ) ,
-                title : Text(chapterTitle, style: buildTextStyleBlack(20),),
-                onTap: () { Navigator.of(context).pushNamed("/chapters_topics", arguments: chaptersList); }, ),
-              //_buildChildItem(chaptersList),
-              //Divider(color: Colors.grey, height: 1,),
-            ],
+      child: Container(
+        //margin: EdgeInsets.all(8),
+        child: ListTile(
+          leading: CircleAvatar(
+            child: Text(chapterTitle.substring(0, 1).toUpperCase(), style: buildTextStyle(24),),
+            radius: 30,
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.blue,
           ),
+          contentPadding: EdgeInsets.all(2),
+          title : Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              child : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(chapterTitle, style: buildTextStyleBlack(20)),
+                    Text(getModulesSummary(chaptersList), style: buildTextStyleBlack(16)),
+                    LinearProgressIndicator(value: 30,)
+                  ],
+                ),
+              )
+          ),
+          onTap: () { Navigator.of(context).pushNamed("/chapters_topics", arguments: chaptersList); },
         ),
       ),
     );
@@ -109,6 +113,14 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
       shrinkWrap: true,
       physics: ClampingScrollPhysics(),
     );
+  }
+
+  String getModulesSummary(List<Chapter> chaptersList) {
+    String moduleSummary = "\n";
+    for( Chapter chapter in chaptersList ) {
+      moduleSummary += "${chapter.moduleTitle}\n";
+    }
+    return moduleSummary;
   }
 
 }
