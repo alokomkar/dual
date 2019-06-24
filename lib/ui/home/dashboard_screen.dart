@@ -86,7 +86,10 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(chapterTitle, style: buildTextStyleBlack(20)),
-                    Text(getModulesSummary(chaptersList), style: buildTextStyleBlack(16)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(getModulesSummary(chaptersList), style: buildTextStyleBlack(16)),
+                    ),
                     LinearProgressIndicator(value: 30,)
                   ],
                 ),
