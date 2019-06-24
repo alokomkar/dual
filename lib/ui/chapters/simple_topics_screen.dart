@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:dual_mode/base/base_state.dart';
+import 'package:dual_mode/ui/chapters/chapters.dart';
 import 'package:dual_mode/ui/simple_content/helper.dart';
 import 'package:dual_mode/ui/simple_content/simple_content.dart';
 import 'package:dual_mode/widgets/practice_button.dart';
-import 'package:dual_mode/widgets/syntax_highlighter.dart';
 import 'package:flutter/material.dart';
 
 class SimpleContentScreen extends StatefulWidget {
@@ -18,10 +18,12 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   List<SimpleContent> _displayList = List();
   int _currentIndex = 0;
   ScrollController _controller = ScrollController();
+  String title = "";
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
 
   @override
   void initializeData() {
+    title = "Introduction";
     _simpleContentList = getOOFirstContent();
     _displayList.add(_simpleContentList[_currentIndex]);
   }
@@ -30,7 +32,8 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   Widget build(BuildContext context){
 
     return Scaffold(
-      appBar: buildAppBar("Introduction"),
+      appBar: buildAppBar(title),
+      drawer: _buildDrawer(),
       body: _buildListView(),
       floatingActionButton: _buildFab(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -60,7 +63,10 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
       key: _listKey,
       initialItemCount: _displayList.length,
       itemBuilder: (context, position, animation) {
-        return _buildAnimatedItemView( _displayList[position], position, animation );
+        return _buildAnimatedItemView( _displayList[position], position, animation ); /*SlideTransition(
+          position: animation.drive(Tween(begin: Offset(200, 0.0), end: Offset.zero)),
+          child: _buildItemView(_displayList[position])*//*_buildAnimatedItemView( _displayList[position], position, animation )*//*,
+        );*/
       }
   );
 
@@ -212,6 +218,44 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   _initPractice(String contentString) {
     Navigator.of(context).pushNamed("/reorderable_list");
   }
+
+  _buildDrawer() => Drawer(
+    child: _buildSubTopicsListView(),
+  );
+
+  _buildSubTopicsListView() {
+    List<Chapter> chapterList = Chapter.getAllChapters()["Introduction to Java"];
+    return ListView.builder(
+      itemBuilder: (context, position) {
+      return _buildSubTopicView(chapterList[position]);
+    },
+      itemCount: 6,);
+  }
+
+  _buildSubTopicView(Chapter chapter) => Container(
+    key: Key(chapter.moduleTitle.toString()),
+    decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(bottom: BorderSide(color: Colors.grey, width: 1))
+    ),
+    child: ListTile(
+      title: Text(
+        chapter.moduleTitle,
+        style: TextStyle(
+            fontFamily: 'VarelaRound-Regular',
+            fontSize: 17,
+            color: Colors.black,
+            backgroundColor: Colors.white
+        ),),
+      onTap: (){
+        Navigator.pop(context);
+        setState(() {
+          title = chapter.moduleTitle;
+        });
+      },
+    ),
+
+  );
 
 
 
