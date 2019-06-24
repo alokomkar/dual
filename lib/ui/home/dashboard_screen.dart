@@ -54,19 +54,6 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
     itemCount: chaptersMap.length,
   );
 
-
-  Container _buildListTitle(Chapter chapter) => Container(
-    decoration: BoxDecoration(color: Colors.yellow[100]),
-    child: new ListTile(
-      title: new Text(chapter.moduleTitle, style: buildTextStyleBlack(18),),
-      trailing: Icon(Icons.navigate_next),
-      onTap: () {
-        Navigator.of(context).pushNamed("/chapters_topics");
-        //Navigator.of(context).pushNamed("/reorderable_list");
-      },
-    ),
-  );
-
   _buildParentItem(String chapterTitle, List<Chapter> chaptersList, int position) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -98,26 +85,12 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
                 ),
               )
           ),
-          onTap: () { Navigator.of(context).pushNamed("/chapters_topics", arguments: SimpleTopicsArguments(chaptersList)); },
+          onTap: () {
+            //Navigator.of(context).pushNamed("/chapters_topics", arguments: SimpleTopicsArguments(chaptersList));
+            Navigator.of(context).pushNamed("/drag_and_drop", arguments: SimpleTopicsArguments(chaptersList));
+            },
         ),
       ),
-    );
-  }
-
-  _buildChildItem(List<Chapter> chaptersList) {
-    debugPrint("Chapters list size ${chaptersList.length}");
-    return ListView.builder(itemBuilder: (context, index) {
-      return Column(
-        children: <Widget>[
-          _buildListTitle(chaptersList[index]),
-          Divider(color: Colors.black, height: 1,)
-        ],
-      );
-    },
-      scrollDirection: Axis.vertical,
-      itemCount: chaptersList.length,
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
     );
   }
 
