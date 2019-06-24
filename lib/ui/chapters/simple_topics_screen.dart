@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/ui/chapters/chapters.dart';
+import 'package:dual_mode/ui/chapters/simple_topics_arguments.dart';
 import 'package:dual_mode/ui/simple_content/helper.dart';
 import 'package:dual_mode/ui/simple_content/simple_content.dart';
 import 'package:dual_mode/widgets/practice_button.dart';
@@ -224,15 +225,15 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   );
 
   _buildSubTopicsListView() {
-    List<Chapter> chapterList = Chapter.getAllChapters()["Introduction to Java"];
-    return ListView.builder(
-      itemBuilder: (context, position) {
-      return _buildSubTopicView(chapterList[position]);
-    },
-      itemCount: 6,);
+    final SimpleTopicsArguments simpleTopicsArguments = ModalRoute.of(context).settings.arguments;
+    final List<Chapter> chapterList = simpleTopicsArguments.chaptersList;
+    return ListView(
+        scrollDirection: Axis.vertical,
+        children: chapterList.map<Widget>(_buildSubTopicView).toList(),
+    );
   }
 
-  _buildSubTopicView(Chapter chapter) => Container(
+  Widget _buildSubTopicView(Chapter chapter) => Container(
     key: Key(chapter.moduleTitle.toString()),
     decoration: BoxDecoration(
         color: Colors.white,
