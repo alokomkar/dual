@@ -74,15 +74,17 @@ class _DragNDropCodeScreenState extends BaseState<DragNDropCodeScreen> {
   Container _buildOptionsContainer() {
     return Container(
       color: Colors.black54,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: _optionsList.map<Widget>(_buildDraggableListTitle).toList(),
+      child: Scrollbar(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: _optionsList.map<Widget>(_buildDraggableListTitle).toList(),
+            ),
           ),
         ),
       ),
@@ -119,7 +121,7 @@ class _DragNDropCodeScreenState extends BaseState<DragNDropCodeScreen> {
             Text(item.value, style: TextStyle(
               fontFamily: 'VarelaRound-Regular',
               fontSize: 20,
-              color: !_isChecked ? Colors.black : item.isCorrect ? Colors.green : Colors.red,
+              color: _getItemColor(item),
             )),
           ],
         ),
@@ -158,5 +160,12 @@ class _DragNDropCodeScreenState extends BaseState<DragNDropCodeScreen> {
     }
     else return _buildListTitle(item);
 
+  }
+
+  Color _getItemColor(QuestionItem item) {
+    if( item.isQuestion ) {
+      return !_isChecked ? Colors.black : item.isCorrect ? Colors.green : Colors.red;
+    }
+    else return Colors.black;
   }
 }

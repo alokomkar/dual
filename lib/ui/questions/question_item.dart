@@ -9,4 +9,5 @@ class QuestionItem {
   bool checkState;
   bool isCorrect = false;
   bool isQuestion = false;
+  bool isDraggable = false;
 }
