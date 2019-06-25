@@ -204,6 +204,39 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
           ,
         );
 
+      case SimpleContent.drag_and_drop :
+        return Container(
+          padding:  const EdgeInsets.all(0),
+          margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Divider(color: Colors.black54, height: 5,),
+                Material(
+                  borderRadius: BorderRadius.circular(8),
+                  child: MaterialButton(
+                    minWidth: 250,
+                    color: Colors.black54,
+                    textColor: Colors.white,
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/drag_and_drop");
+                    },
+                    child: Text("Fill blanks", style: buildTextStyle(16),
+                    ),
+                  ),
+                )
+                ,
+                Divider(color: Colors.black54, height: 5,),
+              ],
+            ),
+          )
+          ,
+        );
+
       default :
         return Container(
           //duration: Duration(milliseconds: _animationDuration),

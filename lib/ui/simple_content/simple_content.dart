@@ -18,6 +18,7 @@ class SimpleContent {
   static const int fillBlanks = 7;
   static const int codeMcq = 8; //Contains code in Question
   static const int syntaxLearn = 9;
+  static const int drag_and_drop = 10;
 
 
 }

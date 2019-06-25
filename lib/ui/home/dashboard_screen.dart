@@ -86,8 +86,8 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
               )
           ),
           onTap: () {
-            //Navigator.of(context).pushNamed("/chapters_topics", arguments: SimpleTopicsArguments(chaptersList));
-            Navigator.of(context).pushNamed("/drag_and_drop", arguments: SimpleTopicsArguments(chaptersList));
+            Navigator.of(context).pushNamed("/chapters_topics", arguments: SimpleTopicsArguments(chaptersList));
+            //Navigator.of(context).pushNamed("/drag_and_drop", arguments: SimpleTopicsArguments(chaptersList));
             },
         ),
       ),
