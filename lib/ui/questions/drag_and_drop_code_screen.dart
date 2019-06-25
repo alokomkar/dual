@@ -16,6 +16,8 @@ class _DragNDropCodeScreenState extends BaseState<DragNDropCodeScreen> {
   List<QuestionItem> _questionsList = List();
   List<QuestionItem> _optionsList = List();
 
+  bool _isChecked = false;
+
   @override
   void initializeData() {
 
@@ -51,51 +53,58 @@ class _DragNDropCodeScreenState extends BaseState<DragNDropCodeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           _buildQuestionsListView(),
-          Container(
-            color: Colors.black54,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: _optionsList.map<Widget>(_buildListTitle).toList(),
-                ),
-              ),
-            ),
-            alignment: Alignment(-1, 1),
-          ),
+          _buildOptionsContainer(),
         ],
       ),
     ),
-    bottomNavigationBar: LoginButton(buttonColor: Colors.green, onClick: (){}, buttonText: "Check Now",),
-    //floatingActionButton: _buildFab(),
-    //floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    bottomNavigationBar: LoginButton(buttonColor: Colors.green, onClick: (){
+      if( !_isChecked ) {
+        _isChecked = true;
+        int index = 0;
+        _questionsList.forEach((QuestionItem item) {
+          item.isCorrect = item.value == _originalList[index++].value;
+        });
+        setState(() {
+
+        });
+      }
+    }, buttonText: "Check Now",),
   );
+
+  Container _buildOptionsContainer() {
+    return Container(
+      color: Colors.black54,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: _optionsList.map<Widget>(_buildDraggableListTitle).toList(),
+          ),
+        ),
+      ),
+      alignment: Alignment(-1, 1),
+    );
+  }
 
   Expanded _buildQuestionsListView() {
     return Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              children: _questionsList.map<Widget>(_buildListTitle).toList(),
-            ),
+      child: Container(
+        color: Colors.grey[300],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            children: _questionsList.map<Widget>(_buildDragTarget).toList(),
           ),
-        );
+        ),
+      ),
+    );
   }
-
-  _buildFab() => FloatingActionButton(
-    onPressed: () {
-
-    },
-    child: Icon(Icons.check),
-    foregroundColor: Colors.white,
-    backgroundColor: Colors.green,
-  );
 
   Widget _buildListTitle(QuestionItem item) => Card(
       elevation: 4,
@@ -107,11 +116,47 @@ class _DragNDropCodeScreenState extends BaseState<DragNDropCodeScreen> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text(item.value, style: buildTextStyleBlack(20)),
+            Text(item.value, style: TextStyle(
+              fontFamily: 'VarelaRound-Regular',
+              fontSize: 20,
+              color: !_isChecked ? Colors.black : item.isCorrect ? Colors.green : Colors.red,
+            )),
           ],
         ),
       )
   );
 
+  Widget _buildDraggableListTitle(QuestionItem item) {
+    Widget listTile = _buildListTitle(item);
+    if( !_isChecked ) {
+      return Draggable(
+        data: item,
+        child: listTile,
+        feedback: listTile,
+        childWhenDragging: listTile,
+      );
+    }
+    else return listTile;
+  }
 
+  Widget _buildDragTarget(QuestionItem item) {
+    if( !_isChecked && item.isQuestion ) {
+      return DragTarget(
+        builder: (context, List<QuestionItem> candidateData, rejectedData) {
+          return _buildListTitle(item);
+        },
+        onAccept:(data) {
+          item.value = data.value;
+          setState(() {
+
+          });
+        },
+        onWillAccept: (data) {
+          return item.isQuestion;
+        },
+      );
+    }
+    else return _buildListTitle(item);
+
+  }
 }

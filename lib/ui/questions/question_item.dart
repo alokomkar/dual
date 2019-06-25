@@ -1,7 +1,12 @@
 class QuestionItem {
-  QuestionItem(this.id, this.value, this.checkState);
+
+  QuestionItem(this.id, this.value, this.checkState){
+    isQuestion = this.value.isEmpty;
+  }
+
   final int id;
-  final String value;
+  String value;
   bool checkState;
   bool isCorrect = false;
+  bool isQuestion = false;
 }
