@@ -59,6 +59,11 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
         });
         _isChecked = true;
       });
+      String solution = "";
+      _originalList.forEach((QuestionItem item) {
+        solution += "\n${item.value}";
+      });
+      buildBottomSheet(true, "Nice Work!!", solution);
     },
     child: Icon(Icons.check),
     foregroundColor: Colors.white,

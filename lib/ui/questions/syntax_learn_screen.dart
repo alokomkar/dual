@@ -17,9 +17,6 @@ class _SyntaxLearnScreenState extends BaseState<SyntaxLearnScreen> {
 
   bool _isChecked = false;
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new
-  GlobalKey<ScaffoldState>();
-
   bool _isCorrect = false;
 
   @override
@@ -131,37 +128,7 @@ class _SyntaxLearnScreenState extends BaseState<SyntaxLearnScreen> {
       )
   );
 
-  _buildBottomSheet(String message) => Container(
-    key: _scaffoldKey,
-    color: Colors.black54,
-    padding: EdgeInsets.all(8),
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-          color: Colors.black,
-          padding: EdgeInsets.all(8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(message, style: TextStyle(
-                fontFamily: 'VarelaRound-Regular',
-                fontSize: 16,
-                color:  _isCorrect ? Colors.green : Colors.red,
-              ),
-              ),
-              Text("That's how you write the main function :\n" + _solution, style: buildTextStyle(16),
-              ),
-            ],
-          )),
-    ),
 
-  );
-
-  void _showBottomSheet(String message) => showModalBottomSheet(context: context, builder: (BuildContext builderContext) {
-    return _buildBottomSheet(message);
-  });
-
+  void _showBottomSheet(String message) => buildBottomSheet(_isCorrect, message, _solution);
 
 }

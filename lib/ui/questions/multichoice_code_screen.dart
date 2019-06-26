@@ -1,6 +1,5 @@
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/ui/questions/question_item.dart';
-import 'package:dual_mode/widgets/syntax_highlighter.dart';
 import 'package:flutter/material.dart';
 
 class MultiChoiceCodeScreen extends StatefulWidget {
@@ -59,6 +58,11 @@ class _MultiChoiceCodeScreenState extends BaseState<MultiChoiceCodeScreen> {
           }
           _isChecked = true;
         }
+        String solution = "";
+        _answersList.forEach((QuestionItem item) {
+          solution += "\n${item.value}";
+        });
+        buildBottomSheet(true, "Nice Work!!", solution);
       });
     },
     child: Icon(Icons.check),

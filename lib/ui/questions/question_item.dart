@@ -10,4 +10,11 @@ class QuestionItem {
   bool isCorrect = false;
   bool isQuestion = false;
   bool isDraggable = false;
+
+  @override
+  String toString() {
+    return '$value\n';
+  }
+
+
 }

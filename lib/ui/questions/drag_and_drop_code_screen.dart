@@ -60,16 +60,21 @@ class _DragNDropCodeScreenState extends BaseState<DragNDropCodeScreen> {
     bottomNavigationBar: LoginButton(buttonColor: Colors.green, onClick: (){
       if( !_isChecked ) {
         _isChecked = true;
+        solution = "";
         int index = 0;
         _questionsList.forEach((QuestionItem item) {
+          solution += "\n${_originalList[index].value}";
           item.isCorrect = item.value == _originalList[index++].value;
         });
         setState(() {
 
         });
       }
+      buildBottomSheet(true, "Nice Work!!", solution);
     }, buttonText: "Check Now",),
   );
+
+  String solution = "";
 
   Container _buildOptionsContainer() {
     return Container(

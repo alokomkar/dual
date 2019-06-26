@@ -5,6 +5,7 @@ import 'package:dual_mode/ui/chapters/chapters.dart';
 import 'package:dual_mode/ui/chapters/simple_topics_arguments.dart';
 import 'package:dual_mode/ui/simple_content/helper.dart';
 import 'package:dual_mode/ui/simple_content/simple_content.dart';
+import 'package:dual_mode/widgets/blink_button.dart';
 import 'package:dual_mode/widgets/practice_button.dart';
 import 'package:flutter/material.dart';
 
@@ -204,38 +205,7 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
 
   );
 
-  _buildQuestionContainer( Color color, String title, String path ) =>
-      Padding(
-        padding: EdgeInsets.all(4),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(path);
-          },
-          child : Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            child:  Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container( color: color, height: 5, width: 140,),
-                  CircleAvatar(
-                    child: Text("?", style: buildTextStyle(16)),
-                    radius: 28,
-                    //foregroundColor: color,
-                    backgroundColor: color,
-                  ),
-                  Container( color: color, height: 5, width: 140,),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-
+  _buildQuestionContainer( Color color, String title, String path ) => BlinkButton(color, path);
 
 
 }

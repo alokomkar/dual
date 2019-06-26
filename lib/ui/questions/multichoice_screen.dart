@@ -52,6 +52,11 @@ class _MultiChoiceScreenState extends BaseState<MultiChoiceScreen> {
           }
           _isChecked = true;
         }
+        String solution = "";
+        _answersList.forEach((QuestionItem item) {
+          solution += "\n${item.value}";
+        });
+        buildBottomSheet(true, "Nice Work!!", solution);
       });
     },
     child: Icon(Icons.check),

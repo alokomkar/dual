@@ -83,6 +83,42 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = new
+  GlobalKey<ScaffoldState>();
+
+
+  buildBottomSheet(bool isCorrect, String message, String solution) {
+    showModalBottomSheet(context: context, builder: (BuildContext builderContext) {
+      return Container(
+        key: _scaffoldKey,
+        color: Colors.black54,
+        padding: EdgeInsets.all(8),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+              color: Colors.black,
+              padding: EdgeInsets.all(8),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(message, style: TextStyle(
+                    fontFamily: 'VarelaRound-Regular',
+                    fontSize: 16,
+                    color:  isCorrect ? Colors.green : Colors.red,
+                  ),
+                  ),
+                  Text("The solution is :\n" + solution, style: buildTextStyle(16),
+                  ),
+                ],
+              )),
+        ),
+
+      );
+    });
+  }
+
   @override
   void initState() {
     super.initState();
