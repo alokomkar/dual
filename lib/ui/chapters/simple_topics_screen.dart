@@ -139,136 +139,17 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
         );
 
       case SimpleContent.mcq :
-        return Container(
-          padding:  const EdgeInsets.all(0),
-          margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Divider(color: Colors.red, height: 5,),
-                Material(
-                  borderRadius: BorderRadius.circular(8),
-                  child: MaterialButton(
-                    minWidth: 250,
-                    color: Colors.red,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      Navigator.of(context).pushNamed("/multi_choice");
-                    },
-                    child: Text("Multi Choice", style: buildTextStyle(16),
-                    ),
-                  ),
-                )
-                ,
-                Divider(color: Colors.red, height: 5,),
-              ],
-            ),
-          )
-          ,
-        );
+        return _buildQuestionContainer(Colors.red, "Multi choice", "/multi_choice");
 
       case SimpleContent.codeMcq :
-        return Container(
-          padding:  const EdgeInsets.all(0),
-          margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Divider(color: Colors.cyan, height: 5,),
-                Material(
-                  borderRadius: BorderRadius.circular(8),
-                  child: MaterialButton(
-                    minWidth: 250,
-                    color: Colors.cyan,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      Navigator.of(context).pushNamed("/multi_choice_code");
-                    },
-                    child: Text("Code Quiz", style: buildTextStyle(16),
-                    ),
-                  ),
-                )
-                ,
-                Divider(color: Colors.cyan, height: 5,),
-              ],
-            ),
-          )
-          ,
-        );
+        return _buildQuestionContainer( Colors.cyan, "Code Quiz", "/multi_choice_code");
 
       case SimpleContent.drag_and_drop :
-        return Container(
-          padding:  const EdgeInsets.all(0),
-          margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Divider(color: Colors.black54, height: 5,),
-                Material(
-                  borderRadius: BorderRadius.circular(8),
-                  child: MaterialButton(
-                    minWidth: 250,
-                    color: Colors.black54,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      Navigator.of(context).pushNamed("/drag_and_drop");
-                    },
-                    child: Text("Fill blanks", style: buildTextStyle(16),
-                    ),
-                  ),
-                )
-                ,
-                Divider(color: Colors.black54, height: 5,),
-              ],
-            ),
-          )
-          ,
-        );
+        return _buildQuestionContainer( Colors.black54, "Fill blanks", "/drag_and_drop");
 
       case SimpleContent.syntaxLearn :
-        return Container(
-          padding:  const EdgeInsets.all(0),
-          margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Divider(color: Colors.blueGrey, height: 5,),
-                Material(
-                  borderRadius: BorderRadius.circular(8),
-                  child: MaterialButton(
-                    minWidth: 250,
-                    color: Colors.blueGrey,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      Navigator.of(context).pushNamed("/syntax_learn");
-                    },
-                    child: Text("Learn syntax", style: buildTextStyle(16),
-                    ),
-                  ),
-                )
-                ,
-                Divider(color: Colors.blueGrey, height: 5,),
-              ],
-            ),
-          )
-          ,
-        );
+        return _buildQuestionContainer( Colors.blueGrey, "Learn syntax", "/syntax_learn");
+
       default :
         return Container(
           //duration: Duration(milliseconds: _animationDuration),
@@ -321,6 +202,35 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
       },
     ),
 
+  );
+
+  _buildQuestionContainer( Color color, String title, String path ) => Container(
+    padding:  const EdgeInsets.all(0),
+    margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
+    child: SizedBox(
+      width: double.infinity,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container( color: color, height: 5, width: 140,),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(path);
+            },
+            child: CircleAvatar(
+              child: Text("?", style: buildTextStyle(16)),
+              radius: 28,
+              //foregroundColor: color,
+              backgroundColor: color,
+            ),
+          ),
+          Container( color: color, height: 5, width: 140,),
+        ],
+      ),
+    )
+    ,
   );
 
 
