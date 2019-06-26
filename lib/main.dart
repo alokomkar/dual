@@ -5,6 +5,7 @@ import 'package:dual_mode/ui/questions/drag_and_drop_code_screen.dart';
 import 'package:dual_mode/ui/questions/multichoice_code_screen.dart';
 import 'package:dual_mode/ui/questions/multichoice_screen.dart';
 import 'package:dual_mode/ui/questions/rearrange_code_screen.dart';
+import 'package:dual_mode/ui/questions/syntax_learn_screen.dart';
 import 'package:dual_mode/ui/signup/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +34,7 @@ class DualCodeApp extends StatelessWidget {
         '/multi_choice': (context) => MultiChoiceScreen(),
         '/multi_choice_code': (context) => MultiChoiceCodeScreen(),
         '/drag_and_drop': (context) => DragNDropCodeScreen(),
+        '/syntax_learn': (context) => SyntaxLearnScreen(),
       },
     );
   }

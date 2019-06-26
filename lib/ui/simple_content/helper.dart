@@ -52,6 +52,14 @@ List<SimpleContent> getOOFirstContent()  {
           " private int wheelCount;\n" +
           "}",
       SimpleContent.drag_and_drop, ""));
+  simpleContentList.add(SimpleContent("",
+      "/*Here's a sample class Car\n" +
+          "with attributes : car type and wheel count*/\n" +
+          "class Car {\n" +
+          " private String carType;\n" +
+          " private int wheelCount;\n" +
+          "}",
+      SimpleContent.syntaxLearn, ""));
   return simpleContentList;
 
 }
