@@ -174,8 +174,8 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
     final SimpleTopicsArguments simpleTopicsArguments = ModalRoute.of(context).settings.arguments;
     final List<Chapter> chapterList = simpleTopicsArguments.chaptersList;
     return ListView(
-        scrollDirection: Axis.vertical,
-        children: chapterList.map<Widget>(_buildSubTopicView).toList(),
+      scrollDirection: Axis.vertical,
+      children: chapterList.map<Widget>(_buildSubTopicView).toList(),
     );
   }
 
@@ -204,34 +204,37 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
 
   );
 
-  _buildQuestionContainer( Color color, String title, String path ) => Container(
-    padding:  const EdgeInsets.all(0),
-    margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-    child: SizedBox(
-      width: double.infinity,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container( color: color, height: 5, width: 140,),
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushNamed(path);
-            },
-            child: CircleAvatar(
-              child: Text("?", style: buildTextStyle(16)),
-              radius: 28,
-              //foregroundColor: color,
-              backgroundColor: color,
+  _buildQuestionContainer( Color color, String title, String path ) =>
+      Padding(
+        padding: EdgeInsets.all(4),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(path);
+          },
+          child : Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            child:  Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container( color: color, height: 5, width: 140,),
+                  CircleAvatar(
+                    child: Text("?", style: buildTextStyle(16)),
+                    radius: 28,
+                    //foregroundColor: color,
+                    backgroundColor: color,
+                  ),
+                  Container( color: color, height: 5, width: 140,),
+                ],
+              ),
             ),
           ),
-          Container( color: color, height: 5, width: 140,),
-        ],
-      ),
-    )
-    ,
-  );
+        ),
+      );
 
 
 
