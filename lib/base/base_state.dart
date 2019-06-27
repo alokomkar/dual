@@ -91,7 +91,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     showModalBottomSheet(context: context, builder: (BuildContext builderContext) {
       return Container(
         key: _scaffoldKey,
-        color: Colors.black54,
+        color: Colors.white,
         padding: EdgeInsets.all(8),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
