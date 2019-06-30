@@ -17,7 +17,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   }
 
   AppBar buildAppBar( String title ) => AppBar(
-    elevation: 0.1,
+    elevation: 8,
     backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
     title: Text(title,
       style: buildTextStyle(22),),

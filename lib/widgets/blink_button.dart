@@ -17,6 +17,7 @@ class BlinkButton extends StatefulWidget {
 class _BlinkButtonState extends BaseState<BlinkButton> with SingleTickerProviderStateMixin {
 
   AnimationController _animationController;
+  Animation<double> _opacity;
 
   final Color color;
   final String path;
@@ -27,8 +28,15 @@ class _BlinkButtonState extends BaseState<BlinkButton> with SingleTickerProvider
 
   @override
   void initializeData() {
-    _animationController = AnimationController(vsync: this, duration: Duration(seconds: 2));
-    _animationController.repeat();
+    _animationController = new AnimationController(vsync: this,duration: const Duration(milliseconds: 800));
+    _opacity = new CurvedAnimation(parent: _animationController, curve: Curves.easeInOut)..addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _animationController.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        _animationController.forward();
+      }
+    });
+    _animationController.forward();
   }
 
   @override
@@ -38,7 +46,7 @@ class _BlinkButtonState extends BaseState<BlinkButton> with SingleTickerProvider
     }
     else {
       return FadeTransition(
-        opacity: _animationController,
+        opacity: _opacity,
         child: _buildButton(),
       );
     }
