@@ -69,15 +69,19 @@ class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMi
     super.dispose();
   }
 
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     userState = AppStateWidget.of(context).userState;
-    return Scaffold(body: Stack(
-      children: <Widget>[
-        _buildBody(),
-        buildProgressBar()
-      ],
-    ));
+    return Scaffold(
+        key: _scaffoldKey,
+        body: Stack(
+          children: <Widget>[
+            _buildBody(),
+            buildProgressBar()
+          ],
+        ));
   }
 
   _printLog( String message ) => debugPrint(message);
@@ -109,7 +113,7 @@ class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMi
           content: Form(
             key: _key,
             child: _buildContainer(),
-          autovalidate: _validate,
+            autovalidate: _validate,
           ),
         );
       },
@@ -148,47 +152,45 @@ class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMi
   _buildContainer() {
 
     return new Container(
-    width: 350,
-    child : Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment : CrossAxisAlignment.center,
-      children: <Widget>[
-        TextFormField(
-          keyboardType: TextInputType.emailAddress,
-          validator: validateEmail,
-          onSaved: (String val) {
-            _email = val;
-          },
-          decoration: InputDecoration(hintText: "Email"),
-        ),
-        TextFormField(
-          keyboardType: TextInputType.text,
-          obscureText: true,
-          validator: validatePassword,
-          onSaved: (String val) {
-            _password = val;
-          },
-          decoration: InputDecoration(hintText: "Password"),
-        ),
-        SizedBox(height: 16),
-        new LoginButton(
-            buttonColor: Colors.green,
-            buttonText : "Done",
-            onClick: () =>  _validateEmailPassword() //_showSnackBar("TODO Email Password Validation")//_validateEmailPassword()
-        ),
-        SizedBox(height: 8),
-        new LoginButton(
-            buttonColor: Colors.redAccent,
-            buttonText : "Cancel",
-            onClick: () =>  Navigator.of(context).pop()),
-      ],
-    ),);
+      width: 350,
+      child : Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment : CrossAxisAlignment.center,
+        children: <Widget>[
+          TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            validator: validateEmail,
+            onSaved: (String val) {
+              _email = val;
+            },
+            decoration: InputDecoration(hintText: "Email"),
+          ),
+          TextFormField(
+            keyboardType: TextInputType.text,
+            obscureText: true,
+            validator: validatePassword,
+            onSaved: (String val) {
+              _password = val;
+            },
+            decoration: InputDecoration(hintText: "Password"),
+          ),
+          SizedBox(height: 16),
+          new LoginButton(
+              buttonColor: Colors.green,
+              buttonText : "Done",
+              onClick: () =>  _validateEmailPassword() //_showSnackBar("TODO Email Password Validation")//_validateEmailPassword()
+          ),
+          SizedBox(height: 8),
+          new LoginButton(
+              buttonColor: Colors.redAccent,
+              buttonText : "Cancel",
+              onClick: () =>  Navigator.of(context).pop()),
+        ],
+      ),);
   }
 
-  _showSnackBar( String message ) => Scaffold
-      .of(context)
-      .showSnackBar(SnackBar(content: Text(message)));
+  _showSnackBar( String message ) => _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
 
   _validateEmailPassword() {
     if( _key.currentState.validate() ) {
@@ -212,6 +214,7 @@ class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMi
   @override
   void onFirebaseError(String error) {
     toggleProgressBar(false);
+    _showSnackBar(error);
   }
 
   @override
