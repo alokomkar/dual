@@ -1,4 +1,5 @@
 import 'package:dual_mode/base/base_preferences.dart';
+import 'package:dual_mode/ui/signup/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dual_mode/auth/auth.dart';
@@ -53,56 +54,57 @@ class _AppStateWidgetState extends State<AppStateWidget> {
     });
   }
 
-  Future<Null> appHandleGoogleSignIn(bool isLoading) async {
+  Future<Null> appHandleGoogleSignIn(FirebaseSuccessListener listener) async {
     handleSignIn()
         .then((FirebaseUser user) {
-      isLoading = false;
       setState(() {
         userState.user = user;
       });
+      listener.onSuccess(user);
     }).catchError((e) {
       debugPrint("Error sigining in " + e.toString());
-      isLoading = false;
+      listener.onFirebaseError(e.toString());
     });
   }
 
-  Future<Null> appHandleEmailSignIn(bool isLoading, String email, String password) async {
+  Future<Null> appHandleEmailSignIn( String email, String password, FirebaseSuccessListener listener) async {
     handleEmailSignIn(email, password)
         .then((FirebaseUser user) {
-      isLoading = false;
       setState(() {
         userState.user = user;
       });
+      listener.onSuccess(user);
     }).catchError((e) {
       debugPrint("Error sigining in " + e.toString());
-      isLoading = false;
-      appHandleEmailSignUp(true, email, password);
+      appHandleEmailSignUp(true, email, password, listener);
     });
   }
 
-  Future<Null> appHandleEmailSignUp(bool isLoading, String email, String password) async {
+  Future<Null> appHandleEmailSignUp(bool isLoading, String email, String password, FirebaseSuccessListener listener) async {
     handleEmailSignUp(email, password)
         .then((FirebaseUser user) {
       isLoading = false;
       setState(() {
         userState.user = user;
       });
+      listener.onSuccess(user);
     }).catchError((e) {
       debugPrint("Error sigining in " + e.toString());
       isLoading = false;
+      listener.onFirebaseError(e.toString());
     });
   }
 
-  void appHandleAnonUser(bool isLoading) {
+  void appHandleAnonUser( FirebaseSuccessListener listener) {
     handleAnonUser()
         .then((FirebaseUser user) {
-      isLoading = false;
       setState(() {
         userState.user = user;
       });
+      listener.onSuccess(user);
     }).catchError((e) {
       debugPrint("Error sigining in " + e.toString());
-      isLoading = false;
+      listener.onFirebaseError(e.toString());
     });
   }
 

@@ -1,6 +1,7 @@
 import 'package:dual_mode/app_state_widget.dart';
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/widgets/login_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -8,7 +9,27 @@ class LoginScreen extends StatefulWidget {
   State<StatefulWidget> createState() => new LoginState();
 }
 
-class LoginState extends BaseState<LoginScreen> {
+abstract class FirebaseSuccessListener {
+  void onSuccess( FirebaseUser  user );
+  void onFirebaseError( String error );
+}
+
+class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMixin implements FirebaseSuccessListener {
+
+  Animation<double> _animation;
+  AnimationController _animationController;
+
+  @override
+  void initializeData() {
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _animation = Tween<double>(begin: 0, end: 200).animate(_animationController);
+    _animation.addListener(() {
+      setState(() {
+
+      });
+    });
+    _animationController.forward();
+  }
 
   //_function indicates private function.
   _buildBackground() => BoxDecoration(
@@ -38,7 +59,14 @@ class LoginState extends BaseState<LoginScreen> {
 
   _initGoogleSignIn() {
     toggleProgressBar(true);
-    AppStateWidget.of(context).appHandleGoogleSignIn(isLoading);
+    AppStateWidget.of(context).appHandleGoogleSignIn(this);
+  }
+
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -91,7 +119,7 @@ class LoginState extends BaseState<LoginScreen> {
   _initAnonSignIn() {
     _printLog("Tour");
     toggleProgressBar(true);
-    AppStateWidget.of(context).appHandleAnonUser(isLoading);
+    AppStateWidget.of(context).appHandleAnonUser(this);
   }
 
   String validatePassword(String value) {
@@ -166,7 +194,7 @@ class LoginState extends BaseState<LoginScreen> {
     if( _key.currentState.validate() ) {
       Navigator.of(context).pop();
       toggleProgressBar(true);
-      AppStateWidget.of(context).appHandleEmailSignIn(isLoading, _email, _password);
+      AppStateWidget.of(context).appHandleEmailSignIn( _email, _password, this);
     }
     else {
       setState((){
@@ -182,7 +210,16 @@ class LoginState extends BaseState<LoginScreen> {
   }
 
   @override
-  void initializeData() {}
+  void onFirebaseError(String error) {
+    toggleProgressBar(false);
+  }
+
+  @override
+  void onSuccess(FirebaseUser user) {
+    toggleProgressBar(false);
+  }
+
+
 
 }
 
