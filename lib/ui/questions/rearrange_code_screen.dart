@@ -52,10 +52,13 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
 
   _buildFab() => FloatingActionButton(
     onPressed: () {
+      int codeLines = _originalList.length;
+      int correctCode = 0;
       setState(() {
         int index = 0;
         _modifiedList.forEach((QuestionItem item) {
           item.checkState = item.value == _originalList[index++].value;
+          if( item.checkState ) correctCode++;
         });
         _isChecked = true;
       });
@@ -63,7 +66,8 @@ class _RearrangeCodeScreenState extends BaseState<RearrangeCodeScreen> {
       _originalList.forEach((QuestionItem item) {
         solution += "\n${item.value}";
       });
-      buildBottomSheet(true, "Nice Work!!", solution);
+      bool isCorrect = codeLines == correctCode;
+      buildBottomSheet(isCorrect, isCorrect ? "Fantastic.." : "Look again!", solution);
     },
     child: Icon(Icons.check),
     foregroundColor: Colors.white,

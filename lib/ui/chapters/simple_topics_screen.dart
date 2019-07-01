@@ -11,6 +11,7 @@ import 'package:dual_mode/widgets/content_widget.dart';
 import 'package:dual_mode/widgets/header_widget.dart';
 import 'package:dual_mode/widgets/practice_button.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class SimpleContentScreen extends StatefulWidget {
   @override
@@ -123,7 +124,8 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
                   buttonText : "Practice Now",
                   onClick: () => _initPractice(displayList.contentString)) ,
             ),
-            buildCodeBlock(displayList.contentString, 14)
+            buildCodeBlock(displayList.contentString, 14),
+            SizedBox(height: 12,),
           ],
         );
 
@@ -132,9 +134,18 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
             padding:  const EdgeInsets.all(0),
             margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
             decoration: BoxDecoration(color: Colors.grey),
-            child : FadeInImage(
-                placeholder: AssetImage('assets/splash_logo.png'),
-                image: NetworkImage(displayList.contentString)
+            child : CachedNetworkImage(
+                placeholder: (context, url) => Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Image(
+                        image: AssetImage('assets/splash_logo.png')
+                    ),
+                    CircularProgressIndicator()
+                  ],
+                ),
+                errorWidget: (context, url, error) => new Icon(Icons.error),
+                imageUrl: displayList.contentString
             )
         );
 
@@ -151,13 +162,7 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
         return _buildQuestionContainer( Colors.blueGrey, "Learn syntax", "/syntax_learn");
 
       default :
-        return Container(
-          //duration: Duration(milliseconds: _animationDuration),
-            padding: const EdgeInsets.all(12),
-            margin: EdgeInsets.fromLTRB(0, 8, 32, 8),
-            decoration: BoxDecoration(color: Colors.blueAccent),
-            child : Text(displayList.contentString, style: buildTextSimpleContent(20, Colors.blueAccent))
-        );
+        return HeaderWidget(displayList);
     }
 
   }

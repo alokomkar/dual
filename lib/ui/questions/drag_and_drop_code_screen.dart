@@ -58,19 +58,26 @@ class _DragNDropCodeScreenState extends BaseState<DragNDropCodeScreen> {
       ),
     ),
     bottomNavigationBar: LoginButton(buttonColor: Colors.green, onClick: (){
+
+      int codeLines = _originalList.length;
+      int correctCode = 0;
+
       if( !_isChecked ) {
         _isChecked = true;
         solution = "";
         int index = 0;
+
         _questionsList.forEach((QuestionItem item) {
           solution += "\n${_originalList[index].value}";
           item.isCorrect = item.value == _originalList[index++].value;
+          if( item.isCorrect ) ++correctCode;
         });
         setState(() {
 
         });
       }
-      buildBottomSheet(true, "Nice Work!!", solution);
+      bool isCorrect = codeLines == correctCode;
+      buildBottomSheet(isCorrect, isCorrect ? "Nice work!!" : "Hmmm!" , solution);
     }, buttonText: "Check Now",),
   );
 

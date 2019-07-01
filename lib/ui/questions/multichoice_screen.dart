@@ -43,11 +43,14 @@ class _MultiChoiceScreenState extends BaseState<MultiChoiceScreen> {
 
   _buildFab() => FloatingActionButton(
     onPressed: () {
+      int codeLines = _answersList.length;
+      int correctCode = 0;
       setState(() {
         if( !_isChecked ) {
           for( QuestionItem option in _optionsList ) {
             if( option.checkState ) {
               option.isCorrect = _answersList.contains(option);
+              if( option.isCorrect ) correctCode++;
             }
           }
           _isChecked = true;
@@ -56,7 +59,8 @@ class _MultiChoiceScreenState extends BaseState<MultiChoiceScreen> {
         _answersList.forEach((QuestionItem item) {
           solution += "\n${item.value}";
         });
-        buildBottomSheet(true, "Nice Work!!", solution);
+        bool isCorrect = codeLines == correctCode;
+        buildBottomSheet(isCorrect, isCorrect ? "That's correct.." : "Not exactly!", solution);
       });
     },
     child: Icon(Icons.check),
