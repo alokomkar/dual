@@ -254,6 +254,11 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
                   //center: Text("90.0%"),
                   linearStrokeCap: LinearStrokeCap.roundAll,
                   progressColor: Colors.green,
+                  onClick : () {
+                    setState(() {
+                      _showProgressBar = false;
+                    });
+                  }
                 ),
               ),
               Padding(

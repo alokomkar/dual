@@ -65,6 +65,8 @@ class LinearPercentIndicator extends StatefulWidget {
   /// (ie. create 'VU effect'). If no [linearGradient] is specified this option is ignored.
   final bool clipLinearGradient;
 
+  final Function onClick;
+
   LinearPercentIndicator({
     Key key,
     this.fillColor = Colors.transparent,
@@ -81,6 +83,7 @@ class LinearPercentIndicator extends StatefulWidget {
     this.leading,
     this.trailing,
     this.center,
+    this.onClick,
     this.addAutomaticKeepAlive = true,
     this.linearStrokeCap,
     this.padding = const EdgeInsets.symmetric(horizontal: 10.0),
@@ -128,6 +131,9 @@ class _LinearPercentIndicatorState extends State<LinearPercentIndicator>
         ..addListener(() {
           setState(() {
             _percent = _animation.value;
+            if( _percent == widget.percent ) {
+              widget.onClick();
+            }
           });
         });
       _animationController.forward();
