@@ -9,6 +9,7 @@ import 'package:dual_mode/widgets/blink_button.dart';
 import 'package:dual_mode/widgets/bullets_widget.dart';
 import 'package:dual_mode/widgets/content_widget.dart';
 import 'package:dual_mode/widgets/header_widget.dart';
+import 'package:dual_mode/widgets/linear_percent_indicator.dart';
 import 'package:dual_mode/widgets/practice_button.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -26,6 +27,7 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   ScrollController _controller = ScrollController();
   String title = "";
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
+  bool _showProgressBar = false;
 
   @override
   void initializeData() {
@@ -53,7 +55,12 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
     return Scaffold(
       appBar: buildAppBar(title),
       drawer: _buildDrawer(),
-      body: _buildListView(),
+      body: Stack(
+        children: <Widget>[
+          _buildListView(),
+          _buildProgressIndicator()
+        ],
+      ),
       floatingActionButton: _buildFab(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
@@ -66,6 +73,7 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
         setState(() {
           //_listKey.currentState.insertItem(_displayList.length, duration: Duration(milliseconds: 500));
           _displayList.add(_simpleContentList[++_currentIndex]);
+          _showProgressBar = true;
         });
         //_controller.animateTo(_controller.position.maxScrollExtent, duration: Duration(milliseconds: 700), curve: Curves.easeOut);
         //_controller.jumpTo(_controller.position.maxScrollExtent);
@@ -220,6 +228,52 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
         itemBuilder: (context, itemPosition) {
           return _buildItemView(_displayList[itemPosition]);
         });
+  }
+
+  _buildProgressIndicator() {
+    if( _showProgressBar )
+    return Container(
+      color: Colors.black87,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(12, 12, 16, 8),
+                child: new LinearPercentIndicator(
+                  width: MediaQuery.of(context).size.width - 100,
+                  animation: true,
+                  lineHeight: 20.0,
+                  animationDuration: 2000,
+                  percent: 0.9,
+                  //center: Text("90.0%"),
+                  linearStrokeCap: LinearStrokeCap.roundAll,
+                  progressColor: Colors.green,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(child: Icon(Icons.close, color: Colors.white), onTap: () {
+                  setState(() {
+                    _showProgressBar = false;
+                  });
+                },),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+            child: Text("Congratulations!!", style: buildTextStyle(15),),
+          ),
+        ],
+      ),
+    );
+    else return Container();
   }
 
 
