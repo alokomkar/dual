@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class HeaderWidget extends StatefulWidget {
 
   final SimpleContent _displayList;
-
   HeaderWidget(this._displayList);
 
   @override
@@ -19,7 +18,6 @@ class _HeaderWidgetState extends BaseState<HeaderWidget> with TickerProviderStat
   AnimationController _controllerText;
   Animation<double> _animationText;
   SimpleContent _displayList;
-
 
   _HeaderWidgetState(this._displayList);
 
@@ -51,7 +49,7 @@ class _HeaderWidgetState extends BaseState<HeaderWidget> with TickerProviderStat
       child: Container(
         //duration: Duration(milliseconds: _animationDuration),
           padding: const EdgeInsets.all(12),
-          margin: EdgeInsets.fromLTRB(0, 8, 32, 8),
+          margin: EdgeInsets.fromLTRB(0, 8, 48, 8),
           decoration: BoxDecoration(color: Colors.blueAccent),
           child : Text(_displayList.contentString, style: buildTextSimpleContent(20, Colors.blueAccent))
       ),

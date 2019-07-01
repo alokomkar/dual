@@ -6,6 +6,8 @@ import 'package:dual_mode/ui/chapters/simple_topics_arguments.dart';
 import 'package:dual_mode/ui/simple_content/helper.dart';
 import 'package:dual_mode/ui/simple_content/simple_content.dart';
 import 'package:dual_mode/widgets/blink_button.dart';
+import 'package:dual_mode/widgets/bullets_widget.dart';
+import 'package:dual_mode/widgets/content_widget.dart';
 import 'package:dual_mode/widgets/header_widget.dart';
 import 'package:dual_mode/widgets/practice_button.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +29,19 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   @override
   void initializeData() {
     title = "Introduction";
-    _simpleContentList = getOOFirstContent();
+    List<SimpleContent> _originalList = getOOFirstContent();
+    _simpleContentList = List();
+    _originalList.forEach( (item) {
+      if( item.contentType == SimpleContent.bullets ) {
+        item.contentString.split("\n").forEach((contentString) {
+          _simpleContentList.add(SimpleContent("", contentString, SimpleContent.bullets, ""));
+        });
+      }
+      else {
+       _simpleContentList.add(item);
+      }
+    });
+
     _displayList.add(_simpleContentList[_currentIndex]);
   }
 
@@ -49,7 +63,7 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
       if( _currentIndex < _simpleContentList.length - 1 ) {
         //initializeControllerTextAnimation();
         setState(() {
-          _listKey.currentState.insertItem(_displayList.length, duration: Duration(milliseconds: 500));
+          //_listKey.currentState.insertItem(_displayList.length, duration: Duration(milliseconds: 500));
           _displayList.add(_simpleContentList[++_currentIndex]);
         });
         //_controller.animateTo(_controller.position.maxScrollExtent, duration: Duration(milliseconds: 700), curve: Curves.easeOut);
@@ -62,7 +76,7 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
     backgroundColor: Colors.blueGrey,
   );
 
-  _buildListView() => AnimatedList(
+  _buildAnimatedListView() => AnimatedList(
       controller: _controller,
       padding: EdgeInsets.fromLTRB(0, 0, 0, 72),
       key: _listKey,
@@ -88,22 +102,10 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
         return HeaderWidget(displayList);
 
       case SimpleContent.content :
-        return Container(
-          //duration: Duration(milliseconds: _animationDuration),
-            padding: const EdgeInsets.all(12),
-            margin: EdgeInsets.fromLTRB(32, 8, 0, 8),
-            decoration: BoxDecoration(color: Colors.yellow[100]),
-            child : Text(displayList.contentString, style: buildTextSimpleContentBlack(16, Colors.yellow[100]))
-        );
+        return ContentWidget(displayList);
 
       case SimpleContent.bullets :
-        return Container(
-          //duration: Duration(milliseconds: _animationDuration),
-            padding: const EdgeInsets.all(12),
-            margin: EdgeInsets.fromLTRB(0, 8, 32, 8),
-            decoration: BoxDecoration(color: Colors.grey[200]),
-            child : Text(displayList.contentString, style: buildTextSimpleContentBlack(16, Colors.grey[200]))
-        );
+        return BulletsWidget(displayList);
 
       case SimpleContent.code :
         return Column(
@@ -203,6 +205,17 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
   );
 
   _buildQuestionContainer( Color color, String title, String path ) => BlinkButton(color, path);
+
+  _buildListView() {
+    return ListView.builder(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 72),
+        key: _listKey,
+        controller: _controller,
+        itemCount: _displayList.length,
+        itemBuilder: (context, itemPosition) {
+          return _buildItemView(_displayList[itemPosition]);
+        });
+  }
 
 
 

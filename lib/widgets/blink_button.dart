@@ -41,7 +41,8 @@ class _BlinkButtonState extends BaseState<BlinkButton> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    if( _clicked ) {
+    return _buildButton();
+    /*if( _clicked ) {
       return _buildButton();
     }
     else {
@@ -49,7 +50,7 @@ class _BlinkButtonState extends BaseState<BlinkButton> with SingleTickerProvider
         opacity: _opacity,
         child: _buildButton(),
       );
-    }
+    }*/
   }
 
   @override
