@@ -102,7 +102,7 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
         Navigator.of(context).pushNamed("/create_simple_topic");
       });
     },
-    child: Icon(Icons.check),
+    child: Icon(Icons.add),
     foregroundColor: Colors.white,
     backgroundColor: Colors.green,
   );

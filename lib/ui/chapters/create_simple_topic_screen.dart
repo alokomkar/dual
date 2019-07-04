@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/ui/simple_content/simple_content.dart';
@@ -18,39 +20,89 @@ class CreateSimpleTopicScreen extends StatefulWidget {
 class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen> {
 
   final List<SimpleContent> _simpleTopicsList = List();
+  SimpleContent _currentContent = SimpleContent("", "", SimpleContent.header, "");
+
+  var _contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: buildAppBar("Create New Article"),
+    appBar: AppBar(
+      elevation: 8,
+      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+      title: Text("Create article",
+        style: buildTextStyle(22),),
+      actions: <Widget>[
+        GestureDetector(
+          onTap: () {
+
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Icon(Icons.done_all, color: Colors.white),
+          ),
+        )
+      ],
+    ),
     body: _buildBody(),
     bottomNavigationBar: _buildDoneButton(),
   );
 
   @override
-  void initializeData() {}
+  void initializeData() {
+    //_simpleTopicsList.add(SimpleContent("1", "Header here", SimpleContent.header, ""));
+  }
+
+  ScrollController _controller = ScrollController();
 
   _buildBody() => Column(
     children: <Widget>[
       Expanded(
-        child: ListView.builder(itemBuilder: (context, itemPosition) {
+        child: ListView.builder(
+            itemBuilder: (context, itemPosition) {
           return _buildListTile(_simpleTopicsList[itemPosition]);
-        }),
+        },
+          controller: _controller,
+        scrollDirection: Axis.vertical,
+          itemCount: _simpleTopicsList.length,
+        ),
       ),
       Container(
-        color: Colors.black87,
+        color: Colors.grey,
         padding: EdgeInsets.all(8),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("Choose type :", style: buildTextStyleBlack(14),),
+            Text("Choose type :", style: buildTextStyle(14),),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                FlatButton(onPressed: (){}, child: Text("Header", style: buildTextStyleBlack(14),)),
-                FlatButton(onPressed: (){}, child: Text("Bullets", style: buildTextStyleBlack(14),)),
-                FlatButton(onPressed: (){}, child: Text("Code", style: buildTextStyleBlack(14),)),
-                FlatButton(onPressed: (){}, child: Text("Image", style: buildTextStyleBlack(14),)),
+                FlatButton(color : Colors.blue, onPressed: (){ _currentContent.contentType = SimpleContent.header; }, child: Text("Header", style: buildTextStyleBlack(14),)),
+                FlatButton(color : Colors.deepPurpleAccent, onPressed: (){ _currentContent.contentType = SimpleContent.content; }, child: Text("Content", style: buildTextStyleBlack(14),)),
+                FlatButton(color : Colors.tealAccent, onPressed: (){ _currentContent.contentType = SimpleContent.bullets; }, child: Text("Bullets", style: buildTextStyleBlack(14),)),
+                FlatButton(color : Colors.white, onPressed: (){ _currentContent.contentType = SimpleContent.code; }, child: Text("Code", style: buildTextStyleBlack(14),)),
               ],
             ),
-            TextFormField(),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 2, 0, 2),
+              child: FlatButton(color : Colors.yellow, onPressed: (){ _currentContent.contentType = SimpleContent.image; }, child: Text("Image", style: buildTextStyleBlack(14),)),
+            ),
+            Container(
+              color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    style: buildTextStyleBlack(16),
+                    decoration: InputDecoration.collapsed(hintText: "Type here..."),
+                    maxLines: 10,
+                    minLines: 3,
+                    controller: _contentController,
+                    keyboardType: TextInputType.multiline,
+                    onSaved: (String contentString) {
+                      _currentContent.contentString = contentString;
+                    },
+                  ),
+                )
+            ),
           ],
         ),
       )
@@ -58,6 +110,7 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen> {
   );
 
   Widget _buildListTile(SimpleContent displayList) {
+    debugPrint("Content is : " + displayList.toString());
     switch( displayList.contentType ) {
       case SimpleContent.header :
         return HeaderWidget(displayList);
@@ -76,16 +129,6 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             SizedBox(height: 12,),
-            SizedBox(
-              height: 44,
-              width: 130,
-              child: PracticeButton(
-                  buttonColor: Colors.green,
-                  buttonText: "Practice Now",
-                  onClick: () {
-
-                  }),
-            ),
             buildCodeBlock(displayList.contentString, 14),
             SizedBox(height: 12,),
           ],
@@ -116,6 +159,12 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen> {
 
   Widget _buildDoneButton() => LoginButton(
       buttonColor: Colors.green, onClick: (){
-
+      setState(() {
+        _currentContent.contentString = _contentController.text;
+        _simpleTopicsList.add(_currentContent);
+      });
+      _currentContent = SimpleContent("", "", SimpleContent.header, "");
+      _contentController.clear();
+      Timer(Duration(milliseconds: 520), () => _controller.jumpTo(_controller.position.maxScrollExtent));
   }, buttonText: "Done");
 }

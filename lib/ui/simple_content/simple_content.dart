@@ -20,5 +20,10 @@ class SimpleContent {
   static const int syntaxLearn = 9;
   static const int drag_and_drop = 10;
 
+  @override
+  String toString() {
+    return 'SimpleContent{contentString: $contentString}';
+  }
+
 
 }
