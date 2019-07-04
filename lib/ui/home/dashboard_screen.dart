@@ -43,6 +43,8 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
   Scaffold _buildBody() => Scaffold(
     appBar: buildAppBar("Home"),
     body: _buildChapters(),
+    floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    floatingActionButton: _buildFab(),
   );
 
   _buildChapters() => ListView.builder(
@@ -93,6 +95,17 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
       ),
     );
   }
+
+  _buildFab() => FloatingActionButton(
+    onPressed: () {
+      setState(() {
+        Navigator.of(context).pushNamed("/create_simple_topic");
+      });
+    },
+    child: Icon(Icons.check),
+    foregroundColor: Colors.white,
+    backgroundColor: Colors.green,
+  );
 
 
 

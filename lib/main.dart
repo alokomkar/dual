@@ -1,3 +1,4 @@
+import 'package:dual_mode/ui/chapters/create_simple_topic_screen.dart';
 import 'package:dual_mode/ui/chapters/simple_topics_screen.dart';
 import 'package:dual_mode/ui/home/dashboard_screen.dart';
 import 'package:dual_mode/ui/language/language_selection_screen.dart';
@@ -35,6 +36,7 @@ class DualCodeApp extends StatelessWidget {
         '/multi_choice_code': (context) => MultiChoiceCodeScreen(),
         '/drag_and_drop': (context) => DragNDropCodeScreen(),
         '/syntax_learn': (context) => SyntaxLearnScreen(),
+        '/create_simple_topic': (context) => CreateSimpleTopicScreen()
       },
     );
   }
