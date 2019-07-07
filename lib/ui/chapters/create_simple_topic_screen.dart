@@ -223,8 +223,9 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
   Widget _buildSendButton() => Container(
         child: GestureDetector(
           onTap: () {
-            String text = _contentController.text;
-            if (text.isNotEmpty) {
+            String content = _contentController.text.trim();
+            if (content.isNotEmpty) {
+              String text = content.toLowerCase();
               if (text.startsWith("http") &&
                   (text.endsWith(".jpg") ||
                       text.endsWith(".png") ||
@@ -232,7 +233,7 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
                       text.endsWith(".jpeg") ||
                       text.endsWith(".gif"))) {
                 _currentContent.contentType = SimpleContent.image;
-                _currentContent.contentString = text;
+                _currentContent.contentString = content;
                 _addSimpleContent();
               } else
                 _showOptions();
