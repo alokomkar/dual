@@ -89,6 +89,11 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
         "String[] args - arguments from the command line are passed to program via args - an array of Strings.",
         SimpleContent.bullets,
         ""));
+    _simpleTopicsList.add(SimpleContent(
+        "1",
+        "https://thumbs.gfycat.com/DamagedImportantAmurratsnake-size_restricted.gif",
+        SimpleContent.image,
+        ""));
   }
 
   ScrollController _controller = ScrollController();
@@ -218,9 +223,20 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
   Widget _buildSendButton() => Container(
         child: GestureDetector(
           onTap: () {
-            if (_contentController.text.isNotEmpty)
-              _showOptions();
-            else
+            String text = _contentController.text;
+            if (text.isNotEmpty) {
+              if (text.startsWith("http") &&
+                  (text.endsWith(".jpg") ||
+                      text.endsWith(".png") ||
+                      text.endsWith(".webp") ||
+                      text.endsWith(".jpeg") ||
+                      text.endsWith(".gif"))) {
+                _currentContent.contentType = SimpleContent.image;
+                _currentContent.contentString = text;
+                _addSimpleContent();
+              } else
+                _showOptions();
+            } else
               _showSnackBar("Enter at least one line");
           },
           child: Padding(
