@@ -8,6 +8,7 @@ import 'package:dual_mode/ui/questions/multichoice_screen.dart';
 import 'package:dual_mode/ui/questions/rearrange_code_screen.dart';
 import 'package:dual_mode/ui/questions/syntax_learn_screen.dart';
 import 'package:dual_mode/ui/signup/login_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'app_state_widget.dart';
@@ -20,24 +21,51 @@ class DualCodeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      onGenerateRoute: _routes(),
       title: 'Dual Code',
       //theme: buildTheme(),
-      //initialRoute: "/chapters_topic",
-      routes: {
-        // If you're using navigation routes, Flutter needs a base route.
-        // We're going to change this route once we're ready with
-        // implementation of HomeScreen.
-        DashboardRoute: (context) => DashboardScreen(),
-        LoginScreenRoute: (context) => LoginScreen(),
-        LanguageSelectionScreenRoute: (context) => LanguageSelectionScreen(),
-        SimpleContentScreenRoute: (context) => SimpleContentScreen(),
-        RearrangeCodeScreenRoute: (context) => RearrangeCodeScreen(),
-        MultiChoiceScreenRoute: (context) => MultiChoiceScreen(),
-        MultiChoiceCodeScreenRoute: (context) => MultiChoiceCodeScreen(),
-        DragNDropCodeScreenRoute: (context) => DragNDropCodeScreen(),
-        SyntaxLearnScreenRoute: (context) => SyntaxLearnScreen(),
-        CreateSimpleTopicScreenRoute: (context) => CreateSimpleTopicScreen()
-      },
     );
+  }
+
+  RouteFactory _routes() {
+    return (settings) {
+      final Map<String, dynamic> arguments = settings.arguments;
+      Widget screen;
+      switch (settings.name) {
+        case DashboardRoute:
+          screen = DashboardScreen();
+          break;
+        case LoginScreenRoute:
+          screen = LoginScreen();
+          break;
+        case LanguageSelectionScreenRoute:
+          screen = LanguageSelectionScreen();
+          break;
+        case SimpleContentScreenRoute:
+          screen = SimpleContentScreen(arguments["chapterTitle"]);
+          break;
+        case RearrangeCodeScreenRoute:
+          screen = RearrangeCodeScreen();
+          break;
+        case MultiChoiceScreenRoute:
+          screen = MultiChoiceScreen();
+          break;
+        case MultiChoiceCodeScreenRoute:
+          screen = MultiChoiceCodeScreen();
+          break;
+        case DragNDropCodeScreenRoute:
+          screen = DragNDropCodeScreen();
+          break;
+        case SyntaxLearnScreenRoute:
+          screen = SyntaxLearnScreen();
+          break;
+        case CreateSimpleTopicScreenRoute:
+          screen = CreateSimpleTopicScreen();
+          break;
+        default:
+          return null;
+      }
+      return CupertinoPageRoute(builder: (BuildContext context) => screen);
+    };
   }
 }

@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/base/routes.dart';
 import 'package:dual_mode/ui/chapters/chapters.dart';
-import 'package:dual_mode/ui/chapters/simple_topics_arguments.dart';
 import 'package:dual_mode/ui/simple_content/helper.dart';
 import 'package:dual_mode/ui/simple_content/simple_content.dart';
 import 'package:dual_mode/widgets/blink_button.dart';
@@ -16,6 +15,10 @@ import 'package:dual_mode/widgets/practice_button.dart';
 import 'package:flutter/material.dart';
 
 class SimpleContentScreen extends StatefulWidget {
+  final String _chapterTitle;
+
+  SimpleContentScreen(this._chapterTitle);
+
   @override
   _SimpleContentScreenState createState() => _SimpleContentScreenState();
 }
@@ -186,9 +189,8 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
       );
 
   _buildSubTopicsListView() {
-    final SimpleTopicsArguments simpleTopicsArguments =
-        ModalRoute.of(context).settings.arguments;
-    final List<Chapter> chapterList = simpleTopicsArguments.chaptersList;
+    final List<Chapter> chapterList =
+        Chapter.getChaptersByTitle(widget._chapterTitle);
     return ListView(
       scrollDirection: Axis.vertical,
       children: chapterList.map<Widget>(_buildSubTopicView).toList(),
