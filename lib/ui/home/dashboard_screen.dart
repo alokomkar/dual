@@ -1,5 +1,6 @@
 import 'package:dual_mode/app_state_widget.dart';
 import 'package:dual_mode/base/base_state.dart';
+import 'package:dual_mode/base/routes.dart';
 import 'package:dual_mode/ui/chapters/chapters.dart';
 import 'package:dual_mode/ui/chapters/simple_topics_arguments.dart';
 import 'package:dual_mode/ui/language/language_selection_screen.dart';
@@ -14,7 +15,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends BaseState<DashboardScreen> {
-
   Map<String, List<Chapter>> chaptersMap;
   Map<String, String> chaptersSummaryMap;
 
@@ -31,48 +31,53 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
   Widget _buildContent() {
     userState = AppStateWidget.of(context).userState;
     userPreferences = AppStateWidget.of(context).userPreferences;
-    if( userState.user != null ) {
-      if( userPreferences.getSelectedLanguage().isEmpty )
+    if (userState.user != null) {
+      if (userPreferences.getSelectedLanguage().isEmpty)
         return LanguageSelectionScreen();
-      else return _buildBody();
-    }
-    else
+      else
+        return _buildBody();
+    } else
       return LoginScreen();
   }
 
   Scaffold _buildBody() => Scaffold(
-    appBar: buildAppBar("Home"),
-    body: _buildChapters(),
-    floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-    floatingActionButton: _buildFab(),
-  );
+        appBar: buildAppBar("Home"),
+        body: _buildChapters(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: _buildFab(),
+      );
 
   _buildChapters() => ListView.builder(
-    itemBuilder: (context, position){
-      String chapterTitle = chaptersMap.keys.elementAt(position);
-      List<Chapter> chaptersList = chaptersMap[chapterTitle];
-      return _buildParentItem(chapterTitle, chaptersList, position);
-    },
-    itemCount: chaptersMap.length,
-  );
+        itemBuilder: (context, position) {
+          String chapterTitle = chaptersMap.keys.elementAt(position);
+          List<Chapter> chaptersList = chaptersMap[chapterTitle];
+          return _buildParentItem(chapterTitle, chaptersList, position);
+        },
+        itemCount: chaptersMap.length,
+      );
 
-  _buildParentItem(String chapterTitle, List<Chapter> chaptersList, int position) {
+  _buildParentItem(
+      String chapterTitle, List<Chapter> chaptersList, int position) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
         //margin: EdgeInsets.all(8),
         child: ListTile(
           leading: CircleAvatar(
-            child: Text(chapterTitle.substring(0, 1).toUpperCase(), style: buildTextStyle(24),),
+            child: Text(
+              chapterTitle.substring(0, 1).toUpperCase(),
+              style: buildTextStyle(24),
+            ),
             radius: 30,
             foregroundColor: Colors.white,
             backgroundColor: Colors.blue[900],
           ),
           contentPadding: EdgeInsets.all(2),
-          title : Card(
+          title: Card(
               elevation: 4,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-              child : Padding(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,33 +85,32 @@ class _DashboardScreenState extends BaseState<DashboardScreen> {
                     Text(chapterTitle, style: buildTextStyleBlack(20)),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(chaptersSummaryMap[chapterTitle], style: buildTextStyleBlack(16)),
+                      child: Text(chaptersSummaryMap[chapterTitle],
+                          style: buildTextStyleBlack(16)),
                     ),
-                    LinearProgressIndicator(value: 30,)
+                    LinearProgressIndicator(
+                      value: 30,
+                    )
                   ],
                 ),
-              )
-          ),
+              )),
           onTap: () {
-            Navigator.of(context).pushNamed("/chapters_topics", arguments: SimpleTopicsArguments(chaptersList));
-            //Navigator.of(context).pushNamed("/drag_and_drop", arguments: SimpleTopicsArguments(chaptersList));
-            },
+            Navigator.of(context).pushNamed(SimpleContentScreenRoute,
+                arguments: SimpleTopicsArguments(chaptersList));
+          },
         ),
       ),
     );
   }
 
   _buildFab() => FloatingActionButton(
-    onPressed: () {
-      setState(() {
-        Navigator.of(context).pushNamed("/create_simple_topic");
-      });
-    },
-    child: Icon(Icons.add),
-    foregroundColor: Colors.white,
-    backgroundColor: Colors.green,
-  );
-
-
-
+        onPressed: () {
+          setState(() {
+            Navigator.of(context).pushNamed(CreateSimpleTopicScreenRoute);
+          });
+        },
+        child: Icon(Icons.add),
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.green,
+      );
 }

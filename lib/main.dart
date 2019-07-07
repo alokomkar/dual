@@ -11,11 +11,11 @@ import 'package:dual_mode/ui/signup/login_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'app_state_widget.dart';
+import 'base/routes.dart';
 
-void main() => runApp(new AppStateWidget(child : DualCodeApp()));
+void main() => runApp(AppStateWidget(child: DualCodeApp()));
 
 class DualCodeApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,19 +27,17 @@ class DualCodeApp extends StatelessWidget {
         // If you're using navigation routes, Flutter needs a base route.
         // We're going to change this route once we're ready with
         // implementation of HomeScreen.
-        '/': (context) => DashboardScreen(),
-        '/login': (context) => LoginScreen(),
-        '/language': (context) => LanguageSelectionScreen(),
-        '/chapters_topics': (context) => SimpleContentScreen(),
-        '/reorderable_list': (context) => RearrangeCodeScreen(),
-        '/multi_choice': (context) => MultiChoiceScreen(),
-        '/multi_choice_code': (context) => MultiChoiceCodeScreen(),
-        '/drag_and_drop': (context) => DragNDropCodeScreen(),
-        '/syntax_learn': (context) => SyntaxLearnScreen(),
-        '/create_simple_topic': (context) => CreateSimpleTopicScreen()
+        DashboardRoute: (context) => DashboardScreen(),
+        LoginScreenRoute: (context) => LoginScreen(),
+        LanguageSelectionScreenRoute: (context) => LanguageSelectionScreen(),
+        SimpleContentScreenRoute: (context) => SimpleContentScreen(),
+        RearrangeCodeScreenRoute: (context) => RearrangeCodeScreen(),
+        MultiChoiceScreenRoute: (context) => MultiChoiceScreen(),
+        MultiChoiceCodeScreenRoute: (context) => MultiChoiceCodeScreen(),
+        DragNDropCodeScreenRoute: (context) => DragNDropCodeScreen(),
+        SyntaxLearnScreenRoute: (context) => SyntaxLearnScreen(),
+        CreateSimpleTopicScreenRoute: (context) => CreateSimpleTopicScreen()
       },
     );
   }
 }
-
-
