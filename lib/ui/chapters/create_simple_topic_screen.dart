@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dual_mode/base/base_interaction_listener.dart';
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/ui/simple_content/simple_content.dart';
 import 'package:dual_mode/widgets/bullets_widget.dart';
 import 'package:dual_mode/widgets/content_widget.dart';
 import 'package:dual_mode/widgets/header_widget.dart';
 import 'package:dual_mode/widgets/login_button.dart';
+import 'package:dual_mode/widgets/option_type_widget.dart';
 import 'package:flutter/material.dart';
 
 class CreateSimpleTopicScreen extends StatefulWidget {
@@ -16,7 +18,8 @@ class CreateSimpleTopicScreen extends StatefulWidget {
   }
 }
 
-class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen> {
+class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
+    implements BaseInteractionListener<int> {
   final List<SimpleContent> _simpleTopicsList = List();
   SimpleContent _currentContent =
       SimpleContent("", "", SimpleContent.header, "");
@@ -28,7 +31,7 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen> {
       appBar: _buildAppBar(),
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
-        children: <Widget>[_buildBody(), _buildCard()],
+        children: <Widget>[_buildBody()],
       ));
 
   AppBar _buildAppBar() => AppBar(
@@ -161,7 +164,7 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen> {
                       ],
                     ),
                 errorWidget: (context, url, error) => new Icon(Icons.error),
-                imageUrl: displayList.contentString));
+                imageUrl: displayList.contentString.trim()));
     }
   }
 
@@ -185,7 +188,6 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen> {
     setState(() {
       _currentContent.contentString = _contentController.text;
       _simpleTopicsList.add(_currentContent);
-      _showOptionsView = !_showOptionsView;
     });
     _currentContent = SimpleContent("", "", SimpleContent.header, "");
     _contentController.clear();
@@ -210,8 +212,6 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen> {
               minLines: 3,
               controller: _contentController,
               keyboardType: TextInputType.multiline,
-              initialValue:
-                  _currentContent != null ? _currentContent.contentString : "",
               onSaved: (String contentString) {
                 _currentContent.contentString = contentString;
               },
@@ -220,15 +220,10 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen> {
         ),
       );
 
-  bool _showOptionsView = false;
-
   Widget _buildSendButton() => Container(
         child: GestureDetector(
           onTap: () {
-            //_showOptions();
-            setState(() {
-              _showOptionsView = !_showOptionsView;
-            });
+            _showOptions();
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -240,89 +235,21 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen> {
         ),
       );
 
-  final GlobalKey _optionsKey = GlobalKey();
-
   void _showOptions() => showModalBottomSheet(
       context: context,
       builder: (BuildContext builderContext) {
-        return _buildCard();
+        return OptionTypeWidget(this);
       });
 
-  Widget _buildCard() {
-    if (_showOptionsView)
-      return Container(
-        color: Colors.black54,
-        child: Card(
-          elevation: 4,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _showOptionsView = !_showOptionsView;
-                    });
-                  },
-                  child: Container(
-                    alignment: AlignmentDirectional.topEnd,
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ),
-                  ),
-                ),
-                Row(
-                  key: _optionsKey,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    _buildOption(SimpleContent.header, "Header"),
-                    _buildOption(SimpleContent.content, "Content"),
-                    _buildOption(SimpleContent.bullets, "Bullets"),
-                    _buildOption(SimpleContent.code, "Code"),
-                    _buildOption(SimpleContent.image, "Image"),
-                  ],
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                _buildDoneButton()
-              ],
-            ),
-          ),
-        ),
-      );
-    else
-      return Container();
+  @override
+  void onCancel(String error) {
+    Navigator.pop(context);
   }
 
-  Widget _buildOption(int contentType, String description) => Card(
-      elevation: 4,
-      color: _currentContent.contentType == contentType
-          ? Colors.green
-          : Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _currentContent.contentType = contentType;
-          });
-          _optionsKey.currentState.setState(() {});
-        },
-        child: Padding(
-          padding: EdgeInsets.all(8),
-          child: Container(
-              child: Text(
-            description,
-            style: _currentContent.contentType == contentType
-                ? buildTextStyle(16)
-                : buildTextStyleBlack(16),
-          )),
-        ),
-      ));
+  @override
+  void onSuccess(int item) {
+    _currentContent.contentType = item;
+    _addSimpleContent();
+    Navigator.pop(context);
+  }
 }
