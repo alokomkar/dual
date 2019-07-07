@@ -10,34 +10,35 @@ class LoginScreen extends StatefulWidget {
 }
 
 abstract class FirebaseSuccessListener {
-  void onSuccess( FirebaseUser  user );
-  void onFirebaseError( String error );
+  void onSuccess(FirebaseUser user);
+  void onFirebaseError(String error);
 }
 
-class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMixin implements FirebaseSuccessListener {
-
+class LoginState extends BaseState<LoginScreen>
+    with SingleTickerProviderStateMixin
+    implements FirebaseSuccessListener {
   Animation<double> _animation;
   AnimationController _animationController;
 
   @override
   void initializeData() {
-    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
-    _animation = Tween<double>(begin: 0, end: 200).animate(_animationController);
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _animation =
+        Tween<double>(begin: 0, end: 200).animate(_animationController);
     _animation.addListener(() {
-      setState(() {
-
-      });
+      setState(() {});
     });
     _animationController.forward();
   }
 
   //_function indicates private function.
   _buildBackground() => BoxDecoration(
-    image: DecorationImage(
-      image: AssetImage("assets/splash_logo.png"),
-      fit: BoxFit.none,
-    ),
-  );
+        image: DecorationImage(
+          image: AssetImage("assets/splash_logo.png"),
+          fit: BoxFit.none,
+        ),
+      );
 
   Container _buildBody() {
     return Container(
@@ -48,9 +49,18 @@ class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMi
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            LoginButton( buttonColor: Colors.redAccent, buttonText : "Sign In with Google", onClick: () => _initGoogleSignIn()),
-            LoginButton( buttonColor: Colors.blue, buttonText : "Sign In with Email", onClick: () => _initEmailSignIn()),
-            LoginButton( buttonColor: Colors.blueGrey, buttonText : "Take a tour", onClick: () => _initAnonSignIn()),
+            LoginButton(
+                buttonColor: Colors.redAccent,
+                buttonText: "Sign In with Google",
+                onClick: () => _initGoogleSignIn()),
+            LoginButton(
+                buttonColor: Colors.blue,
+                buttonText: "Sign In with Email",
+                onClick: () => _initEmailSignIn()),
+            LoginButton(
+                buttonColor: Colors.blueGrey,
+                buttonText: "Take a tour",
+                onClick: () => _initAnonSignIn()),
           ],
         ),
       ),
@@ -62,29 +72,25 @@ class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMi
     AppStateWidget.of(context).appHandleGoogleSignIn(this);
   }
 
-
   @override
   void dispose() {
     _animationController.dispose();
     super.dispose();
   }
 
-  var _scaffoldKey = GlobalKey<ScaffoldState>();
+  var _scaffoldLoginKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     userState = AppStateWidget.of(context).userState;
     return Scaffold(
-        key: _scaffoldKey,
+        key: _scaffoldLoginKey,
         body: Stack(
-          children: <Widget>[
-            _buildBody(),
-            buildProgressBar()
-          ],
+          children: <Widget>[_buildBody(), buildProgressBar()],
         ));
   }
 
-  _printLog( String message ) => debugPrint(message);
+  _printLog(String message) => debugPrint(message);
 
   _initEmailSignIn() {
     _printLog("Email");
@@ -100,7 +106,6 @@ class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMi
   String _password;
   // user defined function
   void _showDialog() {
-
     resetState();
     // flutter defined function
     showDialog(
@@ -109,7 +114,8 @@ class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMi
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Email Signup / Login"),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
           content: Form(
             key: _key,
             child: _buildContainer(),
@@ -133,7 +139,6 @@ class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMi
       _password = value;
       return null;
     }
-
   }
 
   String validateEmail(String value) {
@@ -146,17 +151,15 @@ class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMi
       _email = value;
       return null;
     }
-
   }
 
   _buildContainer() {
-
     return new Container(
       width: 350,
-      child : Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment : CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           TextFormField(
             keyboardType: TextInputType.emailAddress,
@@ -178,28 +181,30 @@ class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMi
           SizedBox(height: 16),
           new LoginButton(
               buttonColor: Colors.green,
-              buttonText : "Done",
-              onClick: () =>  _validateEmailPassword() //_showSnackBar("TODO Email Password Validation")//_validateEmailPassword()
-          ),
+              buttonText: "Done",
+              onClick: () =>
+                  _validateEmailPassword() //_showSnackBar("TODO Email Password Validation")//_validateEmailPassword()
+              ),
           SizedBox(height: 8),
           new LoginButton(
               buttonColor: Colors.redAccent,
-              buttonText : "Cancel",
-              onClick: () =>  Navigator.of(context).pop()),
+              buttonText: "Cancel",
+              onClick: () => Navigator.of(context).pop()),
         ],
-      ),);
+      ),
+    );
   }
 
-  _showSnackBar( String message ) => _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
+  _showSnackBar(String message) => _scaffoldLoginKey.currentState
+      .showSnackBar(SnackBar(content: Text(message)));
 
   _validateEmailPassword() {
-    if( _key.currentState.validate() ) {
+    if (_key.currentState.validate()) {
       Navigator.of(context).pop();
       toggleProgressBar(true);
-      AppStateWidget.of(context).appHandleEmailSignIn( _email, _password, this);
-    }
-    else {
-      setState((){
+      AppStateWidget.of(context).appHandleEmailSignIn(_email, _password, this);
+    } else {
+      setState(() {
         _validate = true;
       });
     }
@@ -221,8 +226,4 @@ class LoginState extends BaseState<LoginScreen> with SingleTickerProviderStateMi
   void onSuccess(FirebaseUser user) {
     toggleProgressBar(false);
   }
-
-
-
 }
-

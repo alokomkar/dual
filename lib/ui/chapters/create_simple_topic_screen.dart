@@ -7,7 +7,6 @@ import 'package:dual_mode/ui/simple_content/simple_content.dart';
 import 'package:dual_mode/widgets/bullets_widget.dart';
 import 'package:dual_mode/widgets/content_widget.dart';
 import 'package:dual_mode/widgets/header_widget.dart';
-import 'package:dual_mode/widgets/login_button.dart';
 import 'package:dual_mode/widgets/option_type_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -25,9 +24,11 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
       SimpleContent("", "", SimpleContent.header, "");
 
   var _contentController = TextEditingController();
+  var _scaffoldCreateTopicKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) => Scaffold(
+      key: _scaffoldCreateTopicKey,
       appBar: _buildAppBar(),
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
@@ -168,13 +169,6 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
     }
   }
 
-  Widget _buildDoneButton() => LoginButton(
-      buttonColor: Colors.green,
-      onClick: () {
-        _addSimpleContent();
-      },
-      buttonText: "Done");
-
   ListView _buildContentList() => ListView.builder(
         itemBuilder: (context, itemPosition) {
           return _buildListTile(_simpleTopicsList[itemPosition]);
@@ -210,6 +204,7 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
               decoration: InputDecoration.collapsed(hintText: "Type here..."),
               maxLines: 10,
               minLines: 3,
+              validator: _validateTopic,
               controller: _contentController,
               keyboardType: TextInputType.multiline,
               onSaved: (String contentString) {
@@ -223,7 +218,10 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
   Widget _buildSendButton() => Container(
         child: GestureDetector(
           onTap: () {
-            _showOptions();
+            if (_contentController.text.isNotEmpty)
+              _showOptions();
+            else
+              _showSnackBar("Enter at least one line");
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -251,5 +249,12 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
     _currentContent.contentType = item;
     _addSimpleContent();
     Navigator.pop(context);
+  }
+
+  _showSnackBar(String message) => _scaffoldCreateTopicKey.currentState
+      .showSnackBar(SnackBar(content: Text(message)));
+
+  String _validateTopic(String value) {
+    return value.isEmpty ? "Required" : null;
   }
 }
