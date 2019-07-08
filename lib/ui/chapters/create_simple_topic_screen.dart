@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dual_mode/base/base_interaction_listener.dart';
 import 'package:dual_mode/base/base_state.dart';
+import 'package:dual_mode/ui/simple_content/helper.dart';
 import 'package:dual_mode/ui/simple_content/simple_content.dart';
 import 'package:dual_mode/widgets/bullets_widget.dart';
 import 'package:dual_mode/widgets/content_widget.dart';
@@ -55,45 +56,7 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
 
   @override
   void initializeData() {
-    _simpleTopicsList.add(SimpleContent(
-        "1", "Simple program AKA Hello World", SimpleContent.header, ""));
-    _simpleTopicsList.add(SimpleContent(
-        "1",
-        "The quintessential program all programmers have to start with - Hello World",
-        SimpleContent.content,
-        ""));
-    _simpleTopicsList.add(SimpleContent("1",
-        "public static void main(String[] args){}", SimpleContent.code, ""));
-    _simpleTopicsList.add(SimpleContent(
-        "1",
-        "public - access specifier which means method is accessible publically.",
-        SimpleContent.bullets,
-        ""));
-    _simpleTopicsList.add(SimpleContent(
-        "1",
-        "static - indicates the method is class specific and doesn't require creation of an object to use it.",
-        SimpleContent.bullets,
-        ""));
-    _simpleTopicsList.add(SimpleContent(
-        "1",
-        "void - indicates the method isn't going to return anything.",
-        SimpleContent.bullets,
-        ""));
-    _simpleTopicsList.add(SimpleContent(
-        "1",
-        "main - the starting point for any Java program.",
-        SimpleContent.bullets,
-        ""));
-    _simpleTopicsList.add(SimpleContent(
-        "1",
-        "String[] args - arguments from the command line are passed to program via args - an array of Strings.",
-        SimpleContent.bullets,
-        ""));
-    _simpleTopicsList.add(SimpleContent(
-        "1",
-        "https://thumbs.gfycat.com/DamagedImportantAmurratsnake-size_restricted.gif",
-        SimpleContent.image,
-        ""));
+    _simpleTopicsList.addAll(getCreateSimpleContentList());
   }
 
   ScrollController _controller = ScrollController();
