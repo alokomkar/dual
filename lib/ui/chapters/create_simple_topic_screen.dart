@@ -387,8 +387,9 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
         _showExtraOptions = false;
       });
       return Future.value(false);
-    } else
+    } else {
       Navigator.pop(context);
-    return Future.value(true);
+      return null;
+    }
   }
 }
