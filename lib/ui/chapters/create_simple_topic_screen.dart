@@ -369,6 +369,7 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
   @override
   void onSuccess(int item) {
     _currentContent.contentType = item;
+    _selectedContentList.clear();
     _addSimpleContent();
     Navigator.pop(context);
   }
