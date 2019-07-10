@@ -83,57 +83,90 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
     );
   }
 
-  Widget _buildListTile(SimpleContent displayList) {
-    debugPrint("Content is : " + displayList.toString());
-    switch (displayList.contentType) {
+  Widget _buildListTile(SimpleContent simpleContent) {
+    debugPrint("Content is : " + simpleContent.toString());
+    switch (simpleContent.contentType) {
       case SimpleContent.header:
         return GestureDetector(
           onLongPress: () {
             setState(() {
-              _currentContent = displayList;
+              _currentContent = simpleContent;
+              _contentController.text = _currentContent.contentString;
             });
           },
-          child: HeaderWidget(displayList),
+          child: HeaderWidget(simpleContent),
         );
 
       case SimpleContent.content:
-        return ContentWidget(displayList);
+        return GestureDetector(
+          onLongPress: () {
+            setState(() {
+              _currentContent = simpleContent;
+              _contentController.text = _currentContent.contentString;
+            });
+          },
+          child: ContentWidget(simpleContent),
+        );
 
       case SimpleContent.bullets:
-        return BulletsWidget(displayList);
+        return GestureDetector(
+          onLongPress: () {
+            setState(() {
+              _currentContent = simpleContent;
+              _contentController.text = _currentContent.contentString;
+            });
+          },
+          child: BulletsWidget(simpleContent),
+        );
 
       case SimpleContent.code:
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          textDirection: TextDirection.rtl,
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            SizedBox(
-              height: 12,
-            ),
-            buildCodeBlock(displayList.contentString, 14),
-            SizedBox(
-              height: 12,
-            ),
-          ],
+        return GestureDetector(
+          onLongPress: () {
+            setState(() {
+              _currentContent = simpleContent;
+              _contentController.text = _currentContent.contentString;
+            });
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            textDirection: TextDirection.rtl,
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              SizedBox(
+                height: 12,
+              ),
+              buildCodeBlock(simpleContent.contentString, 14),
+              SizedBox(
+                height: 12,
+              ),
+            ],
+          ),
         );
 
       case SimpleContent.image:
-        return Container(
-            padding: const EdgeInsets.all(0),
-            margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-            decoration: BoxDecoration(color: Colors.grey),
-            child: CachedNetworkImage(
-                placeholder: (context, url) => Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        Image(image: AssetImage('assets/splash_logo.png')),
-                        CircularProgressIndicator()
-                      ],
-                    ),
-                errorWidget: (context, url, error) => new Icon(Icons.error),
-                imageUrl: displayList.contentString.trim()));
+        return GestureDetector(
+          onLongPress: () {
+            setState(() {
+              _currentContent = simpleContent;
+              _contentController.text = _currentContent.contentString;
+            });
+          },
+          child: Container(
+              padding: const EdgeInsets.all(0),
+              margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
+              decoration: BoxDecoration(color: Colors.grey),
+              child: CachedNetworkImage(
+                  placeholder: (context, url) => Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          Image(image: AssetImage('assets/splash_logo.png')),
+                          CircularProgressIndicator()
+                        ],
+                      ),
+                  errorWidget: (context, url, error) => new Icon(Icons.error),
+                  imageUrl: simpleContent.contentString.trim())),
+        );
     }
   }
 
@@ -149,12 +182,17 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
   void _addSimpleContent() {
     setState(() {
       _currentContent.contentString = _contentController.text;
-      _simpleTopicsList.add(_currentContent);
+      if (_simpleTopicsList.contains(_currentContent)) {
+        _simpleTopicsList[_simpleTopicsList.indexOf(_currentContent)] =
+            _currentContent;
+      } else {
+        _simpleTopicsList.add(_currentContent);
+        Timer(Duration(milliseconds: 520),
+            () => _controller.jumpTo(_controller.position.maxScrollExtent));
+      }
     });
-    _currentContent = SimpleContent("", "", SimpleContent.header, "");
     _contentController.clear();
-    Timer(Duration(milliseconds: 520),
-        () => _controller.jumpTo(_controller.position.maxScrollExtent));
+    _currentContent = SimpleContent("", "", SimpleContent.header, "");
   }
 
   _buildInputLayout() => Row(
@@ -216,7 +254,7 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
   void _showOptions() => showModalBottomSheet(
       context: context,
       builder: (BuildContext builderContext) {
-        return OptionTypeWidget(this);
+        return OptionTypeWidget(_currentContent.contentType, this);
       });
 
   @override

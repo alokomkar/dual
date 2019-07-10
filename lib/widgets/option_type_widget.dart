@@ -7,8 +7,8 @@ import 'login_button.dart';
 
 class OptionTypeWidget extends StatefulWidget {
   final BaseInteractionListener<int> _baseInteractionListener;
-
-  OptionTypeWidget(this._baseInteractionListener);
+  int _contentType = -1;
+  OptionTypeWidget(_contentType, this._baseInteractionListener);
 
   @override
   _OptionTypeWidgetState createState() {
@@ -18,6 +18,7 @@ class OptionTypeWidget extends StatefulWidget {
 
 class _OptionTypeWidgetState extends BaseState<OptionTypeWidget> {
   int _currentChoice = -1;
+
   @override
   Widget build(BuildContext context) => Container(
         color: Colors.black54,
@@ -94,5 +95,7 @@ class _OptionTypeWidgetState extends BaseState<OptionTypeWidget> {
       buttonText: "Done");
 
   @override
-  void initializeData() {}
+  void initializeData() {
+    _currentChoice = widget._contentType;
+  }
 }
