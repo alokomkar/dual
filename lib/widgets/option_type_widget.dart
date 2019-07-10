@@ -97,5 +97,6 @@ class _OptionTypeWidgetState extends BaseState<OptionTypeWidget> {
   @override
   void initializeData() {
     _currentChoice = widget._contentType;
+    setState(() {});
   }
 }

@@ -24,35 +24,74 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
   SimpleContent _currentContent =
       SimpleContent("", "", SimpleContent.header, "");
 
+  List<SimpleContent> _selectedContentList = List();
+
   var _contentController = TextEditingController();
   var _scaffoldCreateTopicKey = GlobalKey<ScaffoldState>();
+  var _showExtraOptions = false;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-      key: _scaffoldCreateTopicKey,
-      appBar: _buildAppBar(),
-      body: Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: <Widget>[_buildBody()],
-      ));
+  Widget build(BuildContext context) => WillPopScope(
+        onWillPop: _checkExtrasMenu,
+        child: Scaffold(
+            key: _scaffoldCreateTopicKey,
+            appBar: _buildAppBar(),
+            body: Stack(
+              alignment: AlignmentDirectional.bottomCenter,
+              children: <Widget>[_buildBody()],
+            )),
+      );
 
   AppBar _buildAppBar() => AppBar(
-        elevation: 8,
-        backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
-        title: Text(
-          "Create article",
-          style: buildTextStyle(22),
-        ),
-        actions: <Widget>[
-          GestureDetector(
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Icon(Icons.done_all, color: Colors.white),
-            ),
-          )
-        ],
-      );
+      elevation: 8,
+      backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+      title: Text(
+        "Create article",
+        style: buildTextStyle(22),
+      ),
+      actions: _showExtraOptions
+          ? <Widget>[
+              GestureDetector(
+                onTap: () {
+                  if (_selectedContentList.length == 1) {
+                    setState(() {
+                      _contentController.text = _currentContent.contentString;
+                      _showExtraOptions = false;
+                    });
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Icon(Icons.edit,
+                      color: _selectedContentList.length == 1
+                          ? Colors.white
+                          : Colors.transparent),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedContentList
+                        .forEach((item) => _simpleTopicsList.remove(item));
+                    _selectedContentList.clear();
+                    _showExtraOptions = false;
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Icon(Icons.delete, color: Colors.white),
+                ),
+              ),
+            ]
+          : <Widget>[
+              GestureDetector(
+                onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Icon(Icons.done_all, color: Colors.white),
+                ),
+              ),
+            ]);
 
   @override
   void initializeData() {
@@ -84,90 +123,155 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
   }
 
   Widget _buildListTile(SimpleContent simpleContent) {
-    debugPrint("Content is : " + simpleContent.toString());
     switch (simpleContent.contentType) {
       case SimpleContent.header:
         return GestureDetector(
           onLongPress: () {
-            setState(() {
-              _currentContent = simpleContent;
-              _contentController.text = _currentContent.contentString;
-            });
+            _invokeExtrasMenu(simpleContent);
           },
-          child: HeaderWidget(simpleContent),
+          onTap: () {
+            _removeContent(simpleContent);
+          },
+          child: Container(
+              color: _showExtraOptions &&
+                      _selectedContentList.contains(simpleContent)
+                  ? Colors.black26
+                  : Colors.transparent,
+              padding: _showExtraOptions &&
+                      _selectedContentList.contains(simpleContent)
+                  ? EdgeInsets.fromLTRB(0, 8, 0, 8)
+                  : EdgeInsets.all(0),
+              child: HeaderWidget(simpleContent)),
         );
 
       case SimpleContent.content:
         return GestureDetector(
           onLongPress: () {
-            setState(() {
-              _currentContent = simpleContent;
-              _contentController.text = _currentContent.contentString;
-            });
+            _invokeExtrasMenu(simpleContent);
           },
-          child: ContentWidget(simpleContent),
+          onTap: () {
+            _removeContent(simpleContent);
+          },
+          child: Container(
+              color: _showExtraOptions &&
+                      _selectedContentList.contains(simpleContent)
+                  ? Colors.black26
+                  : Colors.transparent,
+              padding: _showExtraOptions &&
+                      _selectedContentList.contains(simpleContent)
+                  ? EdgeInsets.fromLTRB(0, 8, 0, 8)
+                  : EdgeInsets.all(0),
+              child: ContentWidget(simpleContent)),
         );
 
       case SimpleContent.bullets:
         return GestureDetector(
           onLongPress: () {
-            setState(() {
-              _currentContent = simpleContent;
-              _contentController.text = _currentContent.contentString;
-            });
+            _invokeExtrasMenu(simpleContent);
           },
-          child: BulletsWidget(simpleContent),
+          onTap: () {
+            _removeContent(simpleContent);
+          },
+          child: Container(
+              color: _showExtraOptions &&
+                      _selectedContentList.contains(simpleContent)
+                  ? Colors.black26
+                  : Colors.transparent,
+              padding: _showExtraOptions &&
+                      _selectedContentList.contains(simpleContent)
+                  ? EdgeInsets.fromLTRB(0, 8, 0, 8)
+                  : EdgeInsets.all(0),
+              child: BulletsWidget(simpleContent)),
         );
 
       case SimpleContent.code:
         return GestureDetector(
           onLongPress: () {
-            setState(() {
-              _currentContent = simpleContent;
-              _contentController.text = _currentContent.contentString;
-            });
+            _invokeExtrasMenu(simpleContent);
           },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            textDirection: TextDirection.rtl,
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              SizedBox(
-                height: 12,
-              ),
-              buildCodeBlock(simpleContent.contentString, 14),
-              SizedBox(
-                height: 12,
-              ),
-            ],
+          onTap: () {
+            _removeContent(simpleContent);
+          },
+          child: Container(
+            color: _showExtraOptions &&
+                    _selectedContentList.contains(simpleContent)
+                ? Colors.black26
+                : Colors.transparent,
+            padding: _showExtraOptions &&
+                    _selectedContentList.contains(simpleContent)
+                ? EdgeInsets.fromLTRB(0, 8, 0, 8)
+                : EdgeInsets.all(0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              textDirection: TextDirection.rtl,
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                SizedBox(
+                  height: 12,
+                ),
+                buildCodeBlock(simpleContent.contentString, 14),
+                SizedBox(
+                  height: 12,
+                ),
+              ],
+            ),
           ),
         );
 
       case SimpleContent.image:
         return GestureDetector(
           onLongPress: () {
-            setState(() {
-              _currentContent = simpleContent;
-              _contentController.text = _currentContent.contentString;
-            });
+            _invokeExtrasMenu(simpleContent);
+          },
+          onTap: () {
+            _removeContent(simpleContent);
           },
           child: Container(
-              padding: const EdgeInsets.all(0),
-              margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-              decoration: BoxDecoration(color: Colors.grey),
-              child: CachedNetworkImage(
-                  placeholder: (context, url) => Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          Image(image: AssetImage('assets/splash_logo.png')),
-                          CircularProgressIndicator()
-                        ],
-                      ),
-                  errorWidget: (context, url, error) => new Icon(Icons.error),
-                  imageUrl: simpleContent.contentString.trim())),
+            color: _showExtraOptions &&
+                    _selectedContentList.contains(simpleContent)
+                ? Colors.black26
+                : Colors.transparent,
+            padding: _showExtraOptions &&
+                    _selectedContentList.contains(simpleContent)
+                ? EdgeInsets.fromLTRB(0, 8, 0, 8)
+                : EdgeInsets.all(0),
+            child: Container(
+                padding: const EdgeInsets.all(0),
+                margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                decoration: BoxDecoration(color: Colors.grey),
+                child: CachedNetworkImage(
+                    placeholder: (context, url) => Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Image(image: AssetImage('assets/splash_logo.png')),
+                            CircularProgressIndicator()
+                          ],
+                        ),
+                    errorWidget: (context, url, error) => new Icon(Icons.error),
+                    imageUrl: simpleContent.contentString.trim())),
+          ),
         );
     }
+  }
+
+  void _removeContent(SimpleContent simpleContent) {
+    if (_selectedContentList.contains(simpleContent)) {
+      _selectedContentList.remove(simpleContent);
+      _showExtraOptions = _selectedContentList.isNotEmpty;
+      setState(() {});
+    } else {
+      _invokeExtrasMenu(simpleContent);
+    }
+  }
+
+  void _invokeExtrasMenu(SimpleContent simpleContent) {
+    if (_selectedContentList.length == 0) _currentContent = simpleContent;
+
+    _selectedContentList.add(simpleContent);
+    setState(() {
+      _showExtraOptions = true;
+    });
   }
 
   ListView _buildContentList() => ListView.builder(
@@ -274,5 +378,17 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
 
   String _validateTopic(String value) {
     return value.isEmpty ? "Required" : null;
+  }
+
+  Future<bool> _checkExtrasMenu() {
+    if (_showExtraOptions) {
+      _selectedContentList.clear();
+      setState(() {
+        _showExtraOptions = false;
+      });
+      return Future.value(false);
+    } else
+      Navigator.pop(context);
+    return Future.value(true);
   }
 }
