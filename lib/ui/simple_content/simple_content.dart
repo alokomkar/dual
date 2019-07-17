@@ -1,9 +1,10 @@
 class SimpleContent {
-
-  String contentId  = "";
-  String contentString  = "";
-  int contentType  = 0;
+  String contentId = "";
+  String contentString = "";
+  int contentType = 0;
   String correctOptions = "";
+
+  bool isAnimationPending = true;
 
   SimpleContent(this.contentId, this.contentString, this.contentType,
       this.correctOptions);
@@ -24,6 +25,4 @@ class SimpleContent {
   String toString() {
     return 'SimpleContent{contentString: $contentString}';
   }
-
-
 }
