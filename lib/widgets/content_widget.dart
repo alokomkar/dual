@@ -38,7 +38,7 @@ class _ContentWidgetState extends BaseState<ContentWidget>
   void initializeControllerTextAnimation() {
     _controllerText = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
-    _animationText = Tween(begin: -300.0, end: 0.0).animate(
+    _animationText = Tween(begin: 300.0, end: 0.0).animate(
       CurvedAnimation(
         parent: _controllerText,
         curve: Curves.easeInOut,
