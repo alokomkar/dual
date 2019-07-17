@@ -71,7 +71,8 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
             setState(() {
               //_listKey.currentState.insertItem(_displayList.length, duration: Duration(milliseconds: 500));
               _displayList.add(_simpleContentList[++_currentIndex]);
-              _showProgressBar = true;
+              _showProgressBar =
+                  _currentIndex == (_simpleContentList.length - 1);
             });
             //_controller.animateTo(_controller.position.maxScrollExtent, duration: Duration(milliseconds: 700), curve: Curves.easeOut);
             //_controller.jumpTo(_controller.position.maxScrollExtent);
