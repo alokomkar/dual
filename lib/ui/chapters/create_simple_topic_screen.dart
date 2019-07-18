@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dual_mode/base/base_interaction_listener.dart';
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/ui/simple_content/helper.dart';
@@ -8,6 +7,7 @@ import 'package:dual_mode/ui/simple_content/simple_content.dart';
 import 'package:dual_mode/widgets/bullets_widget.dart';
 import 'package:dual_mode/widgets/content_widget.dart';
 import 'package:dual_mode/widgets/header_widget.dart';
+import 'package:dual_mode/widgets/image_widget.dart';
 import 'package:dual_mode/widgets/option_type_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -236,20 +236,7 @@ class _CreateSimpleTopicScreenState extends BaseState<CreateSimpleTopicScreen>
                     _selectedContentList.contains(simpleContent)
                 ? EdgeInsets.fromLTRB(0, 8, 0, 8)
                 : EdgeInsets.all(0),
-            child: Container(
-                padding: const EdgeInsets.all(0),
-                margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-                decoration: BoxDecoration(color: Colors.grey),
-                child: CachedNetworkImage(
-                    placeholder: (context, url) => Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            Image(image: AssetImage('assets/splash_logo.png')),
-                            CircularProgressIndicator()
-                          ],
-                        ),
-                    errorWidget: (context, url, error) => new Icon(Icons.error),
-                    imageUrl: simpleContent.contentString.trim())),
+            child: ImageWidget(simpleContent.contentString),
           ),
         );
     }

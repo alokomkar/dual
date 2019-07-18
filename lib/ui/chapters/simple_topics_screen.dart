@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dual_mode/base/base_state.dart';
 import 'package:dual_mode/base/routes.dart';
 import 'package:dual_mode/ui/chapters/chapters.dart';
@@ -10,6 +9,7 @@ import 'package:dual_mode/widgets/blink_button.dart';
 import 'package:dual_mode/widgets/bullets_widget.dart';
 import 'package:dual_mode/widgets/content_widget.dart';
 import 'package:dual_mode/widgets/header_widget.dart';
+import 'package:dual_mode/widgets/image_widget.dart';
 import 'package:dual_mode/widgets/linear_percent_indicator.dart';
 import 'package:dual_mode/widgets/practice_button.dart';
 import 'package:flutter/material.dart';
@@ -145,20 +145,7 @@ class _SimpleContentScreenState extends BaseState<SimpleContentScreen> {
         );
 
       case SimpleContent.image:
-        return Container(
-            padding: const EdgeInsets.all(0),
-            margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
-            decoration: BoxDecoration(color: Colors.grey),
-            child: CachedNetworkImage(
-                placeholder: (context, url) => Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        Image(image: AssetImage('assets/splash_logo.png')),
-                        CircularProgressIndicator()
-                      ],
-                    ),
-                errorWidget: (context, url, error) => new Icon(Icons.error),
-                imageUrl: displayList.contentString));
+        return ImageWidget(displayList.contentString);
 
       case SimpleContent.mcq:
         return _buildQuestionContainer(
